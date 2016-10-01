@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+		#container {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+		}
+		#menu{
+			position: absolute;
+			top:0px;
+			left:0px;
+			width:100%;
+			height:60px;
+			background: #3e3e3e;
+			z-index: 10;
+			-moz-box-shadow: 0px 5px 3px 0px #343434;
+			-webkit-box-shadow: 0px 5px 3px 0px #343434;
+			-o-box-shadow: 0px 5px 3px 0px #343434;
+			box-shadow: 0px 5px 3px 0px #343434;
+			filter:progid:DXImageTransform.Microsoft.Shadow(color=#343434, Direction=180, Strength=3);
+		}
+		#fileinput{
+			margin: 20px;
+			border-radius: 20px;
+			background: white;
+			padding-right: 1em;
+		}
+		.myBouton{
+			 margin: 20px;
+		    border-radius: 20px;
+		    background: white;
+		    padding: 5px 15px;
+		    border: none;
+		}
+		.myBouton:hover{
+			background:#43a3e8;
+			cursor: pointer;
+			color:white;
+		}
+		</style>
+		<script src="sigma.min.js"></script>
+		<script src="plugins/sigma.parsers.json.min.js"></script>
+		<script src="plugins/sigma.parsers.gexf.min.js"></script>
+		<script src="plugins/sigma.layout.forceAtlas2.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.2/lodash.min.js"></script>
+
+	</head>
+	<body>
+	<nav id = "menu">
+		<input type="file" id="fileinput" />
+		<button id="startf2" class="myBouton" onclick="s.startForceAtlas2();">Start Force Atlas</button>
+		<button id ="stopf2" class="myBouton" onclick="s.stopForceAtlas2();"> Stop Force Atlas</button>
+        <button id="refresh" class="myBouton" onclick="s.refresh();"> Refresh </button>
+        <button id="animate" class="myBouton" onclick="animateGraph();"> Animation </button>
+	</nav>
+	<div id="container"></div>
+		<!--<script>-->
+<!--////			sigma.parsers.json('data.json', {-->
+<!--////			    container: 'container',-->
+<!--////			    settings: {-->
+<!--////			    	defaultNodeColor: '#ec5148'-->
+<!--////			    }-->
+<!--////			});-->
+<!--//			sigma.parsers.gexf(-->
+<!--//				'res/sms.gexf',-->
+<!--//				{ // Here is the ID of the DOM element that-->
+<!--//					// will contain the graph:-->
+<!--//					container: 'container'-->
+<!--//				},-->
+<!--//				function(s) {-->
+<!--//					// This function will be executed when the-->
+<!--//					// graph is displayed, with "s" the related-->
+<!--//					// sigma instance.-->
+<!--//				}-->
+<!--//			);-->
+		<!--</script>-->
+	<script src="scripts/script.js"></script>
+	<script src="scripts/parser.js"></script>
+	</body>
+</html>
