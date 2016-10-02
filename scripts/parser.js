@@ -4,33 +4,56 @@
 
 
 var nodesId = {};
+var nodesMap = {};
+var edgesMap = {};
+var nodesArray, edgesArray;
 
 Parsesms = function(file)
 {
     var lines = file.split('\n');
     lines.forEach((line) => {
         var nodes  = line.split(';');
+        if(nodes.length < 2)
+            return;
         var source = nodes[0];
         var target = nodes[1];
-        if(nodes.length < 2) {
-            return;
-        }
 
-        if(s.graph.nodes(source) === undefined){
-            var n1 = new Node(source);
-            s.graph.addNode(n1);
+        if(nodesMap[source] === undefined){
+            nodesMap[source] = new Node(source);
         }
-        if(s.graph.nodes(target) === undefined){
-            var n2 = new Node(target);
-            s.graph.addNode(n2);
+        if(nodesMap[target] === undefined){
+            nodesMap[target] = new Node(target);
         }
-        if(s.graph.edges(source+";"+target) === undefined) {
-            var e = new Edge(s.graph.nodes(source), s.graph.nodes(target), source + ";" + target);
-            s.graph.addEdge(e);
+        if(edgesMap[source+";"+target] === undefined) {
+            edgesMap[source+";"+target] = new Edge(source, target, source + ";" + target);
         }
         else{
-            s.graph.edges(source+";"+target).weight++;
+            edgesMap[source+";"+target].weight++;
         }
     });
-    s.refresh();
+
+    nodesArray = _.values(nodesMap);
+    edgesArray = _.values(edgesMap);
+    step(0);
+    // s.graph.addNodes(nodesArray);
+    // s.graph.addEdges(edgesArray);
 };
+
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+function step(i) {
+    s.graph.addNode(nodesArray[i]);
+    var e = edgesArray.filter(function(e) {
+        return s.graph.nodes(e.source)
+            && s.graph.nodes(e.target)
+            && !s.graph.edges(e.id);
+    });
+    s.graph.addEdges(e);
+
+    s.refresh();
+    if(i + 1 < nodesArray.length) {
+        requestAnimationFrame(step.bind(null, i + 1));
+    }
+}
+

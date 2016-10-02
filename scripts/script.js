@@ -37,7 +37,6 @@ class Node {
         this.x = Math.random();
         this.y = Math.random();
         this.size = Math.random() * 15;
-        this.color = "black";
     }
 }
 
@@ -46,8 +45,8 @@ class Edge {
     constructor(s, t, id = "e" + Math.random()*Math.random()*100) {
         this.id = id;
         edgeId++;
-        this.source = s.id;
-        this.target = t.id;
+        this.source = s;
+        this.target = t;
         this.weight = 1;
     }
 }
@@ -83,37 +82,7 @@ function readSingleFile(evt) {
 
 document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
 
-window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-function animateGraph() {
-    var nodes = s.graph.nodes();
-    var edges = s.graph.edges();
-    var bgColor = "white";
-    var fgColor = "black";
 
-    _.each(nodes, node => node.color = bgColor);
-    _.each(edges, edge => edge.color = bgColor);
-    s.refresh();
-
-    var i = 0;
-    function step() {
-        nodes[i].color = fgColor;
-        _.each(edges, edge => {
-            if(edge.source === nodes[i].id
-                || edge.target === nodes[i].id
-                && s.graph.nodes(edge.source).color === fgColor
-                && s.graph.nodes(edge.target).color === fgColor) {
-                edge.color = fgColor;
-            }
-        });
-        s.refresh();
-        if(i + 1 < nodes.length) {
-            i++;
-            requestAnimationFrame(step);
-        }
-    }
-    step();
-}
 
 
 
