@@ -20,17 +20,17 @@ If you intend to write some bytes of JavaScript or Less, you have the choice:
 * `npm run build_js`: Build JavaScript files
 * `npm run watch_js`: Watch JavaScript files and compile when there is an update
 
-#### Source maps
-
-Source maps allow you to debug with the ES6/ES7 syntax you wrote.
-You should activate them for debugging. Type `enable source maps <browser>` in Google if you don't know how to do this.
-
 #### Bundle
 
 You've just done cool stuff and you want to make a production build? One way: `npm run bundle`. Details:
 * `npm run bundle`: Bundle the project
 * `npm run bundle_css`: Bundle the Less files
 * `npm run bundle_js`: Bundle the JavaScript files
+
+#### Source maps
+
+Source maps allow you to debug with the ES6/ES7 syntax you wrote.
+You should activate them for debugging. Type `enable source maps <browser>` in Google if you don't know how to do this.
 
 #### Serve files
 
@@ -54,9 +54,42 @@ Please use lodash instead of native methods for consistency. And it works for no
 
 You **must** read this before trying to use React : [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html).
 
-#### Create a component
+## Snippets
 
-Here is the component boilerplate used in this project:
+You can copy paste those snippets as many times as you need them.
+
+#### Standalone Class
+
+Please always use methods to declare your functions. We will add soon unit tests so we have to access to all declared functions.
+You must use prefixes and put public methods on top on the class (for better readability).
+
+```javascript
+const _ = require("lodash");
+
+class ClassName {
+
+    constructor() {
+        
+    }
+    
+    publicMethod() {
+    
+    }
+    
+    _protectedMethod() {
+    
+    }
+    
+    __privateMethod() {
+    
+    }
+}
+
+module.exports = ClassName;
+```
+
+#### Component (view)
+
 ```javascript
 const _ = require("lodash");
 const React = require("react");
@@ -79,4 +112,25 @@ class Component extends React.Component {
 }
 
 module.exports = Component;
+```
+
+#### Static Helper
+
+```javascript
+const _ = require("lodash");
+
+class Helper {
+
+    static init() {
+    
+    }
+
+    static myMethod() {
+        
+    }
+}
+
+Helper.init();
+
+module.exports = Helper;
 ```
