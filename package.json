@@ -1,0 +1,45 @@
+{
+  "name": "temporal-data-skeleton",
+  "version": "0.0.1",
+  "description": "Webapp to visualize temporal data skeletons",
+  "main": "main.js",
+  "dependencies": {
+    "lodash": "4.16.4",
+    "moment": "2.15.1",
+    "react": "15.3.2",
+    "react-autobind": "1.0.6",
+    "react-dom": "15.3.2",
+    "sigma": "1.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.16.0",
+    "babel-plugin-transform-class-properties": "6.16.0",
+    "babel-plugin-transform-runtime": "6.15.0",
+    "babel-preset-latest": "6.16.0",
+    "babel-preset-react": "6.16.0",
+    "babelify": "7.3.0",
+    "browserify": "13.1.0",
+    "http-server": "0.9.0",
+    "less": "2.7.1",
+    "less-plugin-clean-css": "1.5.1",
+    "uglify-js": "2.7.3",
+    "watchify": "3.7.0"
+  },
+  "scripts": {
+    "build": "npm run env NODE_ENV=development && npm run build_css && npm run build_js",
+    "dev": "npm run env NODE_ENV=development && npm run build_css && npm run watch_js",
+    "build_css": "lessc assets/style/main.less dist/style.css --source-map ",
+    "build_js": "browserify -t babelify --debug src/main.js --outfile dist/build.js",
+    "watch_js": "watchify -t babelify --debug --verbose --poll 100 src/main.js --outfile dist/build.js",
+    "bundle": "npm run env NODE_ENV=production && npm run bundle_css && npm run bundle_js",
+    "bundle_css": "lessc assets/style/main.less dist/style.css --clean-css",
+    "bundle_js": "browserify -t babelify -o dist/bundle.js src/main.js && unglifyjs dist/bundle.js --overwrite",
+    "serve": "http-server -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/get-shwifty/Temporal-Data-Skeletons.git"
+  },
+  "author": "Alexis Schad <alexis@ytotech.com>, Félix Alié <someonefefe@gmail.com>, Damien Delmas <dfdelmas@gmail.com>",
+  "license": ""
+}

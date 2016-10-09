@@ -1,35 +1,82 @@
-[![Build Status](https://travis-ci.org/jacomyal/sigma.js.svg)](https://travis-ci.org/jacomyal/sigma.js)
+Temporal Data Skeleton
+======================
 
-sigma.js - v1.1.0
-=================
+We are designing new methods to represent the time in graphs.
 
-Sigma is a JavaScript library dedicated to graph drawing, mainly developed by [@jacomyal](https://github.com/jacomyal) and [@Yomguithereal](https://github.com/Yomguithereal).
+Stay tuned.
 
-### Resources
+## Set up your environment 
 
-[The website](http://sigmajs.org) provides a global overview of the project, and the documentation is available in the [Github Wiki](https://github.com/jacomyal/sigma.js/wiki).
+#### Installation
 
-Also, the `plugins` and `examples` directories contain various use-cases that might help you understand how to use sigma.
+Well, installation is a bit hard, but I'm sure you will succeed. Just `npm install`
 
-### How to use it
+#### Develop
 
-To use it, clone the repository:
+If you intend to write some bytes of JavaScript or Less, you have the choice:
+* `npm run build`: Build the project once (both JavaScript and Less files)
+* **`npm run dev`**: Better for development, like build but watch JavaScript files changes and rebuilt on the fly
+* `npm run build_css`: Compile Less files
+* `npm run build_js`: Build JavaScript files
+* `npm run watch_js`: Watch JavaScript files and compile when there is an update
 
+#### Source maps
+
+Source maps allow you to debug with the ES6/ES7 syntax you wrote.
+You should activate them for debugging. Type `enable source maps <browser>` in Google if you don't know how to do this.
+
+#### Bundle
+
+You've just done cool stuff and you want to make a production build? One way: `npm run bundle`. Details:
+* `npm run bundle`: Bundle the project
+* `npm run bundle_css`: Bundle the Less files
+* `npm run bundle_js`: Bundle the JavaScript files
+
+#### Serve files
+
+You don't need to install WAMP, LAMP, or someting else. Just `npm run serve` and you will get a server serving static files!
+
+## Contribute and develop
+
+#### ES6 & ES7
+
+We are using latest features from JavaScript using Babel.
+
+* ES6 : See excellent [es6features](https://github.com/lukehoban/es6features#readme) from lukehoban for all new features.
+* ES7 : Contains "async await" feature, good bye promises! See [Syntax async functions](https://babeljs.io/docs/plugins/syntax-async-functions/).
+
+#### Lodash
+
+Don't write loop anymore! All small algorithms have been already written for you (Manipulation, Searching, Sorting, etc.).
+Please use lodash instead of native methods for consistency. And it works for non-native structures!
+
+#### React
+
+You **must** read this before trying to use React : [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html).
+
+#### Create a component
+
+Here is the component boilerplate used in this project:
+```javascript
+const _ = require("lodash");
+const React = require("react");
+const autoBind  = require("react-autobind");
+
+class Component extends React.Component {
+
+    constructor(props) {
+        super(props);
+        autoBind(this);
+    }
+
+    render() {
+        return (
+            <div>
+                This is my component content.
+            </div>
+        )
+    }
+}
+
+module.exports = Component;
 ```
-git clone git@github.com:jacomyal/sigma.js.git
-```
-
-To build the code:
-
- - Install [Node.js](http://nodejs.org/).
- - Install [gjslint](https://developers.google.com/closure/utilities/docs/linter_howto?hl=en).
- - Use `npm install` to install sigma development dependencies.
- - Use `npm run build` to minify the code with [Uglify](https://github.com/mishoo/UglifyJS). The minified file `sigma.min.js` will then be accessible in the `build/` folder.
-
-Also, you can customize the build by adding or removing files from the `coreJsFiles` array in `Gruntfile.js` before applying the grunt task.
-
-### Contributing
-
-You can contribute by submitting [issues tickets](http://github.com/jacomyal/sigma.js/issues) and proposing [pull requests](http://github.com/jacomyal/sigma.js/pulls). Make sure that tests and linting pass before submitting any pull request by running the command `grunt`.
-
-The whole source code is validated by the [Google Closure Linter](https://developers.google.com/closure/utilities/) and [JSHint](http://www.jshint.com/), and the comments are written in [JSDoc](http://en.wikipedia.org/wiki/JSDoc) (tags description is available [here](https://developers.google.com/closure/compiler/docs/js-for-compiler)).
