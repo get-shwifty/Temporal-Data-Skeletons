@@ -2,14 +2,18 @@
  * Created by Felix Alié on 10/10/2016.
  */
 
-
-
 const _ = require("lodash");
-//helper permettant de parser un fichier csv extrait avec l'application smsToCsv
 
+/**
+ * SMS File Parser
+ */
 class ParserSMS {
 
-    //méthode de parsing
+    /**
+     * main parsing method
+     * @param file
+     * @returns {{}}
+     */
     static parse(file) {
         var res = {};
         var lines = file.split('\n');

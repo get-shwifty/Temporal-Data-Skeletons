@@ -1,16 +1,22 @@
 /**
- * Created by Felix Alié on 10/10/2016.
+ * Created by Felix Alié and Damien Delmas on 10/10/2016.
  */
 
 const _ = require("lodash");
 const  moment = require("moment");
 const $ = require("jquery");
 
-//helper permettant de parser un fichier message.html issu d'une archive facebook.
 
+/**
+ * Facebook File Parser
+ */
 class ParserFB {
 
-    //méthode main
+    /**
+     * main method
+     * @param file
+     * @returns {{owner: null, edges: Array}}
+     */
     static parse(file) {
         var res = { owner : null, edges : [] };
         var $ = $.parseHtml(file);
@@ -21,7 +27,11 @@ class ParserFB {
         return res;
     }
 
-    //pour un message donné, récupère la date et génère le poids.
+    /**
+     * parses a message to get associated date and weight
+     * @param msg
+     * @returns {{timestamp, weight: (*|jQuery)}}
+     */
     static parseMessage(msg)
     {
         return {
@@ -31,7 +41,11 @@ class ParserFB {
         };
     }
 
-    //convertit une chaine de caractères en date de format donné
+    /**
+     * converts a string in a js date
+     * @param string
+     * @returns {*|Array|boolean|Number|string|XMLList}
+     */
     static toTimeStamp( string )
     {
         moment.locale('fr');
@@ -40,7 +54,11 @@ class ParserFB {
         return date.valueOf();
     }
 
-    //parse le fichier
+    /**
+     * matin parsing method
+     * @param thread
+     * @returns {Array}
+     */
     static parseThread(thread)
     {
         var contacts = $(thread)

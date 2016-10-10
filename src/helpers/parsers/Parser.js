@@ -3,20 +3,29 @@
  */
 
 const _ = require("lodash");
-
 const parserSMS = require("./ParserSMS");
 const parserFB = require("./ParserFB");
 
-//helper de gestion des parseurs
 
-class Parse {
+/**
+ * Parsers Manager's.
+ */
+class Parser {
 
-    //parsing d'un fichier sms
+    /**
+     * Sms file parsing method
+     * @param file
+     * @returns {*}
+     */
     static parseFromSMS(file) {
         return parserSMS.parse(file);
     }
 
-    //parsing d'un fichier facebook
+    /**
+     * Facebook file parsing method
+     * @param file
+     * @returns {*}
+     */
     static parseFromFB(file) {
         return parserFB.parse(file);
     }
