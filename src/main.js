@@ -39,43 +39,6 @@ render(
 
 /******** SCRIPT *********/
 
-var nodeId = s.graph.nodes().length;
-var edgeId = s.graph.edges().length;
-
-
-//class noeud avec x et y aléatoires
-class Node {
-    constructor(id = "n" + Math.random()*Math.random()*100) {
-        this.id = id;
-        nodeId++;
-        this.x = Math.random();
-        this.y = Math.random();
-        this.size = Math.random() * 15;
-    }
-}
-
-//class lien
-class Edge {
-    constructor(s, t, id = "e" + Math.random()*Math.random()*100) {
-        this.id = id;
-        edgeId++;
-        this.source = s;
-        this.target = t;
-        this.weight = 1;
-    }
-}
-/*var nodes = _.times(1000, i => new Node());
-
- var edges = _.times(1000, i => {
- let source = nodes[_.random(nodes.length - 1)];
- let target = nodes[_.random(nodes.length - 1)];
- return new Edge(source, target);
- });
-
-
- s.graph.addNodes(nodes);
- s.graph.addEdges(edges);
- s.refresh();*/
 
 
 function readSingleFile(evt) {

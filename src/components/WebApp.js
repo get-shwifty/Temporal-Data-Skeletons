@@ -1,6 +1,8 @@
 const _ = require("lodash");
 const React = require("react");
+const Parser = require("../helpers/parsers/Parser")
 const autoBind  = require("react-autobind");
+
 
 class WebApp extends React.Component {
 
@@ -25,10 +27,16 @@ class WebApp extends React.Component {
         this.props.sigmaInstance.refresh();
     }
 
+    handlerFileUpload(content,type){
+        var graph = Parser.parse(content,type);
+        //build le squelette
+        //afficher le tout
+    }
+
     render() {
         return (
             <nav id="menu">
-                <input type="file" id="fileinput" />
+                <InputFile onFileUpload={this.handlerFileUpload}/>
                 <button id="startf2" className="myBouton" onClick={this.startForceAtlas}>Start Force Atlas</button>
                 <button id ="stopf2" className="myBouton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
                 <button id="refresh" className="myBouton" onClick={this.refresh}> Refresh </button>

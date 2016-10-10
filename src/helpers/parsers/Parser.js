@@ -5,6 +5,7 @@
 const _ = require("lodash");
 const parserSMS = require("./ParserSMS");
 const parserFB = require("./ParserFB");
+const parserCSV = require("./ParserCSV");
 
 
 /**
@@ -12,6 +13,22 @@ const parserFB = require("./ParserFB");
  */
 class Parser {
 
+    /**
+     * Main parsing method
+     * @param file
+     * @param type
+     * @returns {*}
+     */
+    static parse(file, type){
+        switch(type){
+            case "SMS":
+                return this.parseFromSMS(file);
+            case "Facebook":
+                return this.parseFromFB(file);
+            default:
+                return this.parseFromCSV(file);
+        }
+    }
     /**
      * Sms file parsing method
      * @param file
@@ -29,6 +46,10 @@ class Parser {
      */
     static parseFromFB(file) {
         return parserFB.parse(file);
+    }
+
+    static parseFromCSV(file){
+        return parserCSV.parse(file);
     }
 }
 
