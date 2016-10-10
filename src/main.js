@@ -87,7 +87,7 @@ function readSingleFile(evt) {
         r.onload = function(e) {
             var contents = e.target.result;
             Parsesms(contents);
-        }
+        };
         r.readAsText(f);
     } else {
         alert("Failed to load file");

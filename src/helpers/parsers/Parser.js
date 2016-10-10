@@ -17,6 +17,7 @@ class Parser {
      * @param file
      * @returns {*}
      */
+
     static parseFromSMS(file) {
         return parserSMS.parse(file);
     }
