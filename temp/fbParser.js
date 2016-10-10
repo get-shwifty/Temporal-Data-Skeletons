@@ -30,7 +30,7 @@ function main(err, window)
 	graph.edges = [].concat.apply( [] , _.map($(".contents .thread"), parseThread ) );
 
 	//WRITING TO A FILE IS NOT NEEDED IN BROWSER
-	fs.writeFileSync(fileName+".json", JSON.stringify(graph));
+	fs.writeFileSync(fileName + ".json", JSON.stringify(graph));
 }
 
 function parseThread(thread)
@@ -67,19 +67,20 @@ function parseThread(thread)
 
 function parseMessage(msg)
 {
-	var msgData = { 
+	return {
 		timestamp : toTimeStamp($(msg).text()),
-		weight : $(msg).parents(".message").next().text().length }	
-	return msgData;
+		weight : $(msg).parents(".message").next().text().length
+
+	};
 }
 
-function toTimeStamp( s )
+function toTimeStamp( string )
 {
 	moment.locale('fr');
 
 	var format = "dddd DD MMMM YYYY, HH:mm UTCZZ";
 
-	var d = moment(s, format);
+	var date = moment(string, format);
 
-	return d.valueOf();
+	return date.valueOf();
 }
