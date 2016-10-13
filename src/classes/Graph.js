@@ -12,6 +12,10 @@ class Graph{
      * @param graph
      */
     constructor(graph = {}) {
+        /**
+         * metadata: {'type': , 'start':, 'end':}
+         * @type {*}
+         */
         this.metadata = _.cloneDeep(graph.metadata);
         this.nodes = _.cloneDeep(graph.nodes);
         this.edges = _.cloneDeep(graph.edges);
@@ -23,6 +27,12 @@ class Graph{
 
     addEdge(edge){
         this.edges.push(edge);
+    }
+
+    static TYPE = {
+        'classicalGraph' : 'classicalGraph',
+        'timeSkelettonGraph' :'timeSkelettonGraph',
+        'amountSkelettonGraph' : 'amountSkelettonGraph'
     }
 }
 
