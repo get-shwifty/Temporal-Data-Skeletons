@@ -3,9 +3,9 @@
  */
 
 const _ = require("lodash");
-require("../../classes/Graph");
-require("../../classes/Node");
-require("../../classes/Edge");
+const Graph = require("../../classes/Graph");
+const Node = require("../../classes/Node");
+const Edge = require("../../classes/Edge");
 /**
  * Default CSV Parser, the csv must be ';' separated and have only source and target collumns
  */
@@ -49,6 +49,5 @@ class ParserCSV {
     }
 }
 
-ParserCSV.init();
 
 module.exports = ParserCSV;

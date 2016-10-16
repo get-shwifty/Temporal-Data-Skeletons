@@ -16,9 +16,10 @@ class Graph{
          * metadata: {'type': , 'start':, 'end':}
          * @type {*}
          */
-        this.metadata = _.cloneDeep(graph.metadata);
-        this.nodes = _.cloneDeep(graph.nodes);
-        this.edges = _.cloneDeep(graph.edges);
+        (graph.metadata !== undefined ? this.metadata = _.cloneDeep(graph.metadata) : this.metadata = {});
+        (graph.nodes !== undefined ? this.nodes = _.cloneDeep(graph.nodes) : this.nodes = {});
+        (graph.edges !== undefined ? this.edges = _.cloneDeep(graph.edges) : this.edges = {});
+
     }
 
     addNode(node){
@@ -36,4 +37,4 @@ class Graph{
     }
 }
 
-module.exports("Graph");
+module.exports = Graph;

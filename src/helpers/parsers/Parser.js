@@ -53,6 +53,5 @@ class Parser {
     }
 }
 
-Parser.init();
 
 module.exports = Parser;

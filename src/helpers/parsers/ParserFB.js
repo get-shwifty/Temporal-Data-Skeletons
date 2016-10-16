@@ -4,7 +4,7 @@
 
 const _ = require("lodash");
 const  moment = require("moment");
-const $ = require("jquery");
+const $ = require("jQuery");
 
 
 /**
@@ -91,7 +91,5 @@ class ParserFB {
         return links;
     }
 }
-
-ParserFB.init();
 
 module.exports = ParserFB;

@@ -2,7 +2,10 @@ const _ = require("lodash");
 const React = require("react");
 const Parser = require("../helpers/parsers/Parser")
 const autoBind  = require("react-autobind");
-
+const InputFile = require("./InputFile")
+const Graph = require("../classes/Graph");
+const Node = require("../classes/Node");
+const Edge = require("../classes/Edge");
 
 class WebApp extends React.Component {
 
@@ -29,6 +32,7 @@ class WebApp extends React.Component {
 
     handlerFileUpload(content,type){
         var graph = Parser.parse(content,type);
+        console.log(graph);
         //build le squelette
         //afficher le tout
     }

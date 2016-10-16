@@ -18,10 +18,9 @@ class InputFile extends React.Component {
 
     handleChange(evt){
         var f = evt.target.files[0];
-
         if (f) {
             var r = new FileReader();
-            r.onload = function(e) {
+            r.onload = (e) => {
                 var contents = e.target.result;
                 this.props.onFileUpload(contents,this.refs.parseType.value);
             };
@@ -33,9 +32,13 @@ class InputFile extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="inputFile">
                 <input type="file" id="fileInput" onChange={this.handleChange}/>
-                <input type="select" id="parseType" ref="parseType"/>
+                <select id="parseType" ref="parseType">
+                    <option value="Facebook">Données facebook</option>
+                    <option value="SMS">Données SMS (smsToText)</option>
+                    <option value="CSV">Fichier CSV</option>
+                </select>
             </div>
         )
     }
