@@ -10,6 +10,12 @@ const timeSkeletton = require("./TimeSkelettonBuilder");
  * Skeletton Builders Managers
  */
 class SkelettonBuilder {
+    static build(graph, options = {}){
+        switch(options.buildType){
+            case "time":
+                return this.buildTimeSkeletton(graph,options.granularity);
+        }
+    }
     /**
      * time skeletton builder methods
      * @param graph
@@ -21,7 +27,6 @@ class SkelettonBuilder {
     }
 }
 
-SkelettonBuilder.init();
 
 module.exports = SkelettonBuilder;
 

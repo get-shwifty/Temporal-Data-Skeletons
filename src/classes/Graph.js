@@ -34,9 +34,9 @@ class Graph{
     addEdge(edge){
         //add target and source nodes if they don't exist
         if(this.nodes[edge.source.id] === undefined)
-            this.nodes[edge.source.id] = edge.source;
+            this.addNode(edge.source);
         if(this.nodes[edge.target.id] === undefined)
-            this.nodes[edge.target.id] = edge.target;
+            this.addNode(edge.target);
         if(this.edges[edge.id] === undefined)
             this.edges[edge.id] = edge;
         else

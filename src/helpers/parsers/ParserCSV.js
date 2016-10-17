@@ -28,7 +28,7 @@ class ParserCSV {
 
             var source = new Node(nodes[0]);
             var target = new Node(nodes[1]);
-            res.addNodes([source,target]);
+            //res.addNodes([source,target]);
             var edge = new Edge(source, target);
             res.addEdge(edge);
         });

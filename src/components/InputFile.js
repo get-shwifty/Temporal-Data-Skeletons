@@ -22,7 +22,17 @@ class InputFile extends React.Component {
             var r = new FileReader();
             r.onload = (e) => {
                 var contents = e.target.result;
-                this.props.onFileUpload(contents,this.refs.parseType.value);
+                var options = {
+                    type: this.refs.parseType.value,
+                    build: {
+                        buildType: "time",
+                        granularity: {
+                            type: this.refs.granularityType.value,
+                            increment: this.refs.granularityInc.value
+                        }
+                    }
+                };
+                this.props.onFileUpload(contents,options);
             };
             r.readAsText(f);
         } else {
@@ -39,6 +49,12 @@ class InputFile extends React.Component {
                     <option value="SMS">Données SMS (smsToText)</option>
                     <option value="CSV">Fichier CSV</option>
                 </select>
+                <select id="granularityType" ref="granularityType">
+                    <option value="days">Jour</option>
+                    <option value="weeks">Semaine</option>
+                    <option value="months">Mois</option>
+                </select>
+                <input type="number" id="granularityInc" ref="granularityInc"/>
             </div>
         )
     }

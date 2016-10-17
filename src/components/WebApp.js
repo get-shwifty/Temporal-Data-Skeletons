@@ -2,7 +2,8 @@ const _ = require("lodash");
 const React = require("react");
 const Parser = require("../helpers/parsers/Parser")
 const autoBind  = require("react-autobind");
-const InputFile = require("./InputFile")
+const InputFile = require("./InputFile");
+const Builder = require("../helpers/skelettonBuilders/SkelettonBuilder");
 const Graph = require("../classes/Graph");
 const Node = require("../classes/Node");
 const Edge = require("../classes/Edge");
@@ -30,8 +31,10 @@ class WebApp extends React.Component {
         this.props.sigmaInstance.refresh();
     }
 
-    handlerFileUpload(content,type){
-        var graph = Parser.parse(content,type);
+    handlerFileUpload(content,options){
+        var graph = Parser.parse(content,options.type);
+        console.log(graph);
+        graph = Builder.build(graph,options.build);
         console.log(graph);
         //build le squelette
         //afficher le tout
