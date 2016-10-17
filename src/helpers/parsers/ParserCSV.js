@@ -26,24 +26,11 @@ class ParserCSV {
             if(nodes.length !== 2)
                 throw Error("fichier csv invalide");
 
-            var source = nodes[0];
-            var target = nodes[1];
-            //creates the source node if not existing yet
-            if(res.nodes[source] === undefined){
-                res.nodes[source] = new Node(source);
-            }
-            //creates the target node if not existing yet
-            if(res.nodes[target] === undefined){
-                res.nodes[target] = new Node(target);
-            }
-            //creates the edge if not existing yet
-            if(res.edges[source+";"+target] === undefined) {
-                res.edges[source+";"+target] = new Edge(source, target, source + ";" + target);
-            }
-            //increases the weight if already existing
-            else{
-                res.edges[source+";"+target].weight++;
-            }
+            var source = new Node(nodes[0]);
+            var target = new Node(nodes[1]);
+            res.addNodes([source,target]);
+            var edge = new Edge(source, target);
+            res.addEdge(edge);
         });
         return res;
     }

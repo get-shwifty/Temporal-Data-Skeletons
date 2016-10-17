@@ -4,6 +4,7 @@
   "description": "Webapp to visualize temporal data skeletons",
   "main": "main.js",
   "dependencies": {
+    "cheerio": "0.22.0",
     "jquery": "^2.2.0",
     "lodash": "4.16.4",
     "moment": "2.15.1",

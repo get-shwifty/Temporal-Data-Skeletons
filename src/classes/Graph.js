@@ -23,11 +23,24 @@ class Graph{
     }
 
     addNode(node){
-        this.nodes.push(node);
+        if(this.nodes[node.id] === undefined)
+            this.nodes[node.id] = node;
+    }
+
+    addNodes(tab){
+        tab.forEach((node) => this.addNode(node));
     }
 
     addEdge(edge){
-        this.edges.push(edge);
+        //add target and source nodes if they don't exist
+        if(this.nodes[edge.source.id] === undefined)
+            this.nodes[edge.source.id] = edge.source;
+        if(this.nodes[edge.target.id] === undefined)
+            this.nodes[edge.target.id] = edge.target;
+        if(this.edges[edge.id] === undefined)
+            this.edges[edge.id] = edge;
+        else
+            this.edges[edge.id].weight++;
     }
 
     static TYPE = {

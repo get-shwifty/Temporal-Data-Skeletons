@@ -6,11 +6,11 @@
  * Edge class
  */
 class Edge {
-    constructor(s, t, id = "e" + Math.random()*Math.random()*100) {
+    constructor(s, t, id = s.id + ";" + t.id,w = 1) {
         this.id = id;
         this.source = s;
         this.target = t;
-        this.weight = 1;
+        this.weight = w;
     }
 }
 module.exports = Edge;

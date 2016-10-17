@@ -4,7 +4,11 @@
 
 const _ = require("lodash");
 const  moment = require("moment");
-const $ = require("jQuery");
+const cheerio = require("cheerio");
+const Graph = require("../../classes/Graph");
+const Node = require("../../classes/Node");
+const Edge = require("../../classes/Edge");
+//const $ = require("jQuery");
 
 
 /**
@@ -13,17 +17,21 @@ const $ = require("jQuery");
 class ParserFB {
 
     /**
-     * main method
+     *
      * @param file
-     * @returns {{owner: null, edges: Array}}
+     * @returns {Graph|exports|module.exports}
      */
     static parse(file) {
-        var res = { owner : null, edges : [] };
-        var $ = $.parseHtml(file);
+        //var res = { owner : null, edges : [] };
+        var res = new Graph();
+        res.metadata.type = Graph.TYPE.classicalGraph;
 
-        res.owner = $(".contents h1").text();
-        res.edges = [].concat.apply( [] , _.map($(".contents .thread"), this.parseThread ) );
-
+        var $ = cheerio.load(file);
+        //var $ = $.parseHtml(file);
+        var owner = $(".contents h1").text();
+        //res.owner = $(".contents h1").text();
+        var edges = [].concat.apply( [] , _.map($(".contents .thread"), this.parseThread ) );
+        edges.forEach(edge => res.addEdge(edge));
         return res;
     }
 
@@ -35,8 +43,8 @@ class ParserFB {
     static parseMessage(msg)
     {
         return {
-            timestamp : toTimeStamp($(msg).text()),
-            weight : $(msg).parents(".message").next().text().length
+            timestamp : toTimeStamp(cheerio(msg).text()),
+            weight : cheerio(msg).parents(".message").next().text().length
 
         };
     }
@@ -55,13 +63,13 @@ class ParserFB {
     }
 
     /**
-     * matin parsing method
+     * main parsing method
      * @param thread
      * @returns {Array}
      */
     static parseThread(thread)
     {
-        var contacts = $(thread)
+        var contacts = cheerio(thread)
             .clone()    //clone the element
             .children() //select all the children
             .remove()   //remove all the children
@@ -71,20 +79,25 @@ class ParserFB {
 
         contacts = _.map(contacts, _.trim);
 
-        var indexOfUser = contacts.indexOf(graph.owner);
+        var indexOfUser = contacts.indexOf(owner);
         if(indexOfUser > -1)
         {
             contacts.splice(indexOfUser,1);
         }
 
-        messages = _.map($(thread).find('.message .message_header .meta'), parseMessage);
+        var messages = _.map(cheerio(thread).find('.message .message_header .meta'), parseMessage);
 
         var links = [];
 
         _.each(messages, function(msg){
             for(var i=0; i < contacts.length; i++)
             {
-                links.push({contact:contacts[i], timestamp: msg.timestamp, weight: msg.weight/contacts.length});
+                var source = contacts[i];
+                var target = msg.timestamp;
+                var link = new Edge(source,target,msg.weight/contacts.length);
+                links.push(link);
+                //links.push({contact:contacts[i], timestamp: msg.timestamp, weight: msg.weight/contacts.length});
+
             }
         });
 
