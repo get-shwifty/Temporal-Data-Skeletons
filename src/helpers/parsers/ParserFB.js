@@ -92,8 +92,8 @@ class ParserFB {
         _.each(messages, function(msg){
             for(var i=0; i < contacts.length; i++)
             {
-                var source = contacts[i];
-                var target = msg.timestamp;
+                var source = new Node(contacts[i]);
+                var target = new Node(msg.timestamp);
                 var link = new Edge(source,target,msg.weight/contacts.length);
                 links.push(link);
                 //links.push({contact:contacts[i], timestamp: msg.timestamp, weight: msg.weight/contacts.length});
