@@ -1,21 +1,23 @@
-/**
- * Created by Felix Alié on 10/10/2016.
- */
 const Node = require("./Node");
+const _ = require("lodash");
+
 /**
  * Edge class
  */
 class Edge {
-    constructor(s, t, id = s.id + ";" + t.id,w = 1) {
+    constructor(s, t, options = {}) {
         if(!(s instanceof Node))
             throw new TypeError("Source parameter is not a Node");
         if(!(t instanceof Node))
             throw new TypeError("Target parameter is not a Node");
 
-        this.id = id;
+        _.defaultTo(options.id, s.id + ";" + t.id);
+        _.defaultTo(options.weight, 1);
+
+        this.id = options.id;
         this.source = s;
         this.target = t;
-        this.weight = w;
+        this.weight = options.weight;
     }
 }
 module.exports = Edge;

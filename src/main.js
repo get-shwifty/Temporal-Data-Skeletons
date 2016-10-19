@@ -83,7 +83,7 @@ const Parsesms = function(file)
             nodesMap[target] = new Node(target);
         }
         if(edgesMap[source+";"+target] === undefined) {
-            edgesMap[source+";"+target] = new Edge(source, target, source + ";" + target);
+            edgesMap[source+";"+target] = new Edge(source, target);
         }
         else{
             edgesMap[source+";"+target].weight++;

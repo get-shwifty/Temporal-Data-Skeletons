@@ -59,7 +59,7 @@ class ParserFB {
             return _.map(contacts, (contact) => {
                 var source = new Node(contact);
                 var target = new Node(msg.timestamp);
-                return new Edge(source, target, undefined, msg.weight/contacts.length);
+                return new Edge(source, target, {weight: msg.weight/contacts.length });
             });
         });
     }
