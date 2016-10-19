@@ -23,26 +23,32 @@ class ParserFB {
      * @returns {Graph}
      */
     static parse(file) {
-        var res = new Graph();
-        res.metadata.type = Graph.TYPE.classicalGraph;
+        var graph = new Graph();
+        graph.metadata.type = Graph.TYPE.classicalGraph;
 
         var doc = $.parseHTML(file);
         var contents = $(doc[4]);
 
         var owner = _.trim(contents.find("h1").text());
 
-        var edges = _.flatMap(contents.find(".thread"), (thread) => this.parseThread(owner, thread));
-        edges.forEach(edge => res.addEdge(edge));
-        return res;
+        // Get all edges in edgesMap
+        let edgesMap = {};
+        _.each(contents.find(".thread"), (thread) => this.parseThread(owner, thread, edgesMap));
+
+        // Add all edges to the graph
+        _.each(_.values(edgesMap), (edge) => graph.addEdge(edge));
+
+        return graph;
     }
 
     /**
      * main parsing method
      * @param owner
      * @param thread
+     * @param {Object} edgesMap - New edges will be set in this object, the key is the edge id and the value is the edge
      * @returns {Array}
      */
-    static parseThread(owner, thread)
+    static parseThread(owner, thread, edgesMap)
     {
         let threadHtml = $(thread).html();
         let contacts =  _.map(threadHtml.slice(0, threadHtml.indexOf("<")).split(","), _.trim);
@@ -54,8 +60,6 @@ class ParserFB {
         }
 
         let messages = _.map($(thread).find('.message .message_header .meta'), (msg) => this.parseMessage(msg));
-
-        let edgesMap = {};
 
         _.each(messages, (msg) => {
             _.each(contacts, (contact) => {
@@ -69,8 +73,6 @@ class ParserFB {
                 }
             });
         });
-
-        return _.values(edgesMap);
     }
 
     /**
