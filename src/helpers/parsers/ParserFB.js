@@ -44,24 +44,33 @@ class ParserFB {
      */
     static parseThread(owner, thread)
     {
-        var threadHtml = $(thread).html();
-        var contacts =  _.map(threadHtml.slice(0, threadHtml.indexOf("<")).split(","), _.trim);
+        let threadHtml = $(thread).html();
+        let contacts =  _.map(threadHtml.slice(0, threadHtml.indexOf("<")).split(","), _.trim);
 
-        var indexOfUser = contacts.indexOf(owner);
+        let indexOfUser = contacts.indexOf(owner);
         if(indexOfUser > -1)
         {
             contacts.splice(indexOfUser,1);
         }
 
-        var messages = _.map($(thread).find('.message .message_header .meta'), (msg) => this.parseMessage(msg));
+        let messages = _.map($(thread).find('.message .message_header .meta'), (msg) => this.parseMessage(msg));
 
-        return _.flatMap(messages, (msg) => {
-            return _.map(contacts, (contact) => {
-                var source = new Node(contact);
-                var target = new Node(msg.timestamp);
-                return new Edge(source, target, {weight: msg.weight/contacts.length });
+        let edgesMap = {};
+
+        _.each(messages, (msg) => {
+            _.each(contacts, (contact) => {
+                let source = new Node(contact);
+                let target = new Node(msg.timestamp);
+                let edge = new Edge(source, target, {weight: msg.weight/contacts.length });
+                if(edgesMap[edge.id]) {
+                    edgesMap[edge.id].weight += edge.weight;
+                } else {
+                    edgesMap[edge.id] = edge;
+                }
             });
         });
+
+        return _.values(edgesMap);
     }
 
     /**
@@ -87,7 +96,7 @@ class ParserFB {
     {
         moment.locale('fr');
         let format = "dddd DD MMMM YYYY, HH:mm UTCZZ";
-        let date = moment(string, format);
+        let date = moment(string, format).hours(0).minutes(0).seconds(0);
         return date.valueOf();
     }
 }

@@ -11,8 +11,10 @@ class Edge {
         if(!(t instanceof Node))
             throw new TypeError("Target parameter is not a Node");
 
-        _.defaultTo(options.id, s.id + ";" + t.id);
-        _.defaultTo(options.weight, 1);
+        _.defaultsDeep(options, {
+            id: s.id + ";" + t.id,
+            weight: 1
+        });
 
         this.id = options.id;
         this.source = s;
