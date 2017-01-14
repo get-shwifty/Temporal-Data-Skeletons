@@ -3,6 +3,7 @@ const React = require("react");
 const Parser = require("../helpers/parsers/Parser")
 const autoBind  = require("react-autobind");
 const InputFile = require("./InputFile");
+const OptionsController = require("./OptionsController");
 const Builder = require("../helpers/skelettonBuilders/SkelettonBuilder");
 const Graph = require("../classes/Graph");
 const Node = require("../classes/Node");
@@ -44,13 +45,20 @@ class WebApp extends React.Component {
         //afficher le tout
     }
 
+    handlerOptionsModifications(options){
+        console.log("on rentre bien là ou il faut");
+        this.props.sigmaInstance.configForceAtlas2(options);
+
+    }
+
     render() {
         return (
             <nav id="menu">
                 <InputFile onFileUpload={this.handlerFileUpload}/>
-                <button id="startf2" className="myBouton" onClick={this.startForceAtlas}>Start Force Atlas</button>
-                <button id ="stopf2" className="myBouton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
-                <button id="refresh" className="myBouton" onClick={this.refresh}> Refresh </button>
+                <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas</button>
+                <button id ="stopf2" className="myButton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
+                <button id="refresh" className="myButton" onClick={this.refresh}> Refresh </button>
+                <OptionsController onOptionsChange={this.handlerOptionsModifications}/>
             </nav>
         )
     }

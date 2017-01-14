@@ -10,29 +10,77 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 50px;
   background: #3e3e3e;
   z-index: 10;
-  -moz-box-shadow: 0 5px 3px 0 #343434;
+  /*-moz-box-shadow: 0 5px 3px 0 #343434;
   -webkit-box-shadow: 0 5px 3px 0 #343434;
   -o-box-shadow: 0 5px 3px 0 #343434;
-  box-shadow: 0 5px 3px 0 #343434;
+  box-shadow: 0 5px 3px 0 #343434;*/
   filter:progid:DXImageTransform.Microsoft.Shadow(color=#343434, Direction=180, Strength=3);
+}
+
+.sliderContainer input{
+  padding: 0.3rem;
+  border-radius: 20px;
+  border: none;
+  margin: 0.5rem;
+  width: 30%;
+  padding-left: 1rem;
+}
+.container {
+  margin: auto;
+  background: #3e3e3e;
+  padding: 1vw;
+  font-family: Roboto;
+  font-weight: 100;
+  text-align: left;
+  color: white;
+  font-size: 0.9rem;
+  display: inline-block;
+  box-shadow: 0 0 5px 1px #242424;
+  -webkit-box-shadow: 0 0 5px 1px #242424;
+  -moz-box-shadow: 0 0 5px 1px #242424;
+  -o-box-shadow: 0 0 5px 1px #242424;
+  position: absolute;
+  top: 10vh;
+  right: 5vw;
 }
 
 #inputFile{
   position: relative;
   float: left;
-  margin: 20px;
+  //margin: 20px;
 }
-.myBouton{
-  margin: 20px;
-  border-radius: 20px;
-  background: white;
-  padding: 5px 15px;
+
+#fileInput{
+  display: none;
+}
+
+
+.myButton, #granularityInc, .mySelect{
+  /* margin: 20px; */
+  /* border-radius: 20px; */
+  background: #3e3e3e;
+  padding: 16px 16px;
   border: none;
+  font-family: Roboto;
+  font-weight: 100;
+  color: white;
+  border-right: solid 1px #000000;
+  height: 100%;
 }
-.myBouton:hover{
+
+#granularityInc, .mySelect{
+  outline:none;
+}
+
+#granularityInc{
+  width:2rem;
+  background:#191919;
+}
+
+.myButton:hover, .mySelect:hover{
   background: #43a3e8;
   cursor: pointer;
   color: white;

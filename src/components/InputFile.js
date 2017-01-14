@@ -17,12 +17,12 @@ class InputFile extends React.Component {
     }
 
     handleChange(evt){
-        var f = evt.target.files[0];
+        let f = evt.target.files[0];
         if (f) {
-            var r = new FileReader();
+            let r = new FileReader();
             r.onload = (e) => {
-                var contents = e.target.result;
-                var options = {
+                let contents = e.target.result;
+                let options = {
                     type: this.refs.parseType.value,
                     build: {
                         buildType: "time",
@@ -43,18 +43,21 @@ class InputFile extends React.Component {
     render() {
         return (
             <div id="inputFile">
-                <input type="file" id="fileInput" onChange={this.handleChange}/>
-                <select id="parseType" ref="parseType">
+                <label className="myButton">
+                    <input type="file" id="fileInput" onChange={this.handleChange}/>
+                    Upload File
+                </label>
+                <select className="mySelect" id="parseType" ref="parseType">
                     <option value="Facebook">Données facebook</option>
                     <option value="SMS">Données SMS (smsToText)</option>
                     <option value="CSV">Fichier CSV</option>
                 </select>
-                <select id="granularityType" ref="granularityType">
-                    <option value="days">Jour</option>
-                    <option value="weeks">Semaine</option>
+                <select className="mySelect" id="granularityType" ref="granularityType">
+                    <option value="days">Jours</option>
+                    <option value="weeks">Semaines</option>
                     <option value="months">Mois</option>
                 </select>
-                <input type="number" id="granularityInc" ref="granularityInc"/>
+                <input type="number" id="granularityInc" ref="granularityInc" value="1"/>
             </div>
         )
     }
