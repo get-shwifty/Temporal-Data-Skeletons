@@ -11,6 +11,10 @@ class Node {
         this.y = Math.random();
         _.assign(this, params);
     }
+
+    setColor(string){
+        this.color = string;
+    }
 }
 
 

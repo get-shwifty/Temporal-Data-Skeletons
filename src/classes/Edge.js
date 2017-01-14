@@ -23,5 +23,9 @@ class Edge {
         this.target = t.id;
         _.assign(this, options);
     }
+
+    setColor(string){
+        this.color = string;
+    }
 }
 module.exports = Edge;
