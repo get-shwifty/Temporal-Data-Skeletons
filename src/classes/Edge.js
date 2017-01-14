@@ -21,7 +21,7 @@ class Edge {
         this.targetNode = t;
         this.source = s.id;
         this.target = t.id;
-        this.weight = options.weight;
+        _.assign(this, options);
     }
 }
 module.exports = Edge;

@@ -19,7 +19,11 @@ class WebApp extends React.Component {
         this.props.sigmaInstance.startForceAtlas2({
             barnesHutOptimize: false,
             iterationsPerRender: 3,
-            edgeWeightInfluence: 0
+            edgeWeightInfluence: 1,
+            maxNodeSize: 50,
+            maxEdgeSize: 20,
+            defaultNodeColor: "#fff",
+            labelColor: "node"
         });
     }
 

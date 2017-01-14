@@ -1,18 +1,15 @@
-/**
- * Created by Félix Alié on 10/10/2016.
- */
+const _ = require("lodash");
 
 /**
  * Node class
  */
-
 class Node {
-    constructor(id = "n" + Math.random()*Math.random()*100, size = 1) {
+    constructor(id = "n" + Math.random() * Math.random() * 100, params = {size: 1}) {
         this.id = id;
         this.label = id;
         this.x = Math.random();
         this.y = Math.random();
-        this.size = size;
+        _.assign(this, params);
     }
 }
 
