@@ -44,7 +44,7 @@ class Graph{
         if(this.edges[edge.id] === undefined)
             this.edges[edge.id] = edge;
         else
-            this.edges[edge.id].weight++;
+            this.edges[edge.id].weight += edge.weight;
     }
 
     static TYPE = {
