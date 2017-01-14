@@ -10,20 +10,20 @@ const timeSkeletton = require("./TimeSkelettonBuilder");
  * Skeletton Builders Managers
  */
 class SkelettonBuilder {
-    static build(graph, options = {}){
+    static build(parsedData, options = {}){
         switch(options.buildType){
             case "time":
-                return this.buildTimeSkeletton(graph,options.granularity);
+                return this.buildTimeSkeletton(parsedData,options.granularity);
         }
     }
     /**
      * time skeletton builder methods
-     * @param graph
+     * @param parsedData
      * @param options
      * @returns {*}
      */
-    static buildTimeSkeletton(graph, options = {}){
-        return timeSkeletton.build(graph,options);
+    static buildTimeSkeletton(parsedData, options = {}){
+        return timeSkeletton.build(parsedData/*,options*/); //TODO reenable options after tests are done
     }
 }
 

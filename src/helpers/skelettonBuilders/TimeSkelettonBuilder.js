@@ -14,30 +14,43 @@ const Edge = require("../../classes/Edge");
 class TimeSkelettonBuilder {
     /**
      *
-     * @param graph
+     * @param parsedData
      * @param granularity
      * @returns {Graph}
      */
-    static build(graph, granularity = {type:"days", increment:1}){
-        let res = new Graph(graph);
-        res.metadata.type = Graph.TYPE.timeSkelettonGraph;
-        let currentDate = this.toTimeStamp(graph.metadata.start);
+    static build(parsedData, granularity = {type:"days", increment:1}){
 
-        while(currentDate <= this.toTimeStamp(graph.metadata.end)){
-            let source = new Node(currentDate.valueOf());
+        const skeletonStrenght = 500;
+
+        let res = new Graph();
+        res.metadata.type = Graph.TYPE.timeSkelettonGraph;
+
+        let currentDate = moment(parsedData.startDate);
+
+        //create skelleton nodes
+        while(currentDate <= parsedData.endDate){
+            let source = new Node(currentDate.format("DD-MM-YYYY"));
             currentDate.add(granularity.increment, granularity.type);
-            let target = new Node(currentDate.valueOf());
-            res.addEdge(new Edge(source, target));
+            let target = new Node(currentDate.format("DD-MM-YYYY"));
+            res.addEdge(new Edge(source, target,{weight: skeletonStrenght}));
         }
+
+        //link the contacts to the skeletton according to the messages
+        _.forEach(parsedData.contacts,( messages, contactID ) => {
+
+            let contactNode = new Node(contactID, _.sumBy(messages,"weight"));
+            console.log(contactNode);
+
+            _.forEach(messages, (msg) => {
+                let target = new Node(moment(msg.timestamp).format("DD-MM-YYYY"));
+                res.addEdge(new Edge(contactNode, target, {weight:msg.weight}));
+            });
+
+        });
+
         return res;
     }
 
-    static toTimeStamp( string )
-    {
-        moment.locale('fr');
-        let format = "dddd DD MMMM YYYY, HH:mm UTCZZ";
-        return moment(string, format);
-    }
 
 }
 
