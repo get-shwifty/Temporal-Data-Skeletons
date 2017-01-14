@@ -17,8 +17,10 @@ class Edge {
         });
 
         this.id = options.id;
-        this.source = s;
-        this.target = t;
+        this.sourceNode = s;
+        this.targetNode = t;
+        this.source = s.id;
+        this.target = t.id;
         this.weight = options.weight;
     }
 }

@@ -35,7 +35,11 @@ class WebApp extends React.Component {
         var graph = Parser.parse(content,options.type);
         console.log(graph);
         graph = Builder.build(graph,options.build);
-        console.log(graph);
+        console.log(_.mapValues(graph, (e) => _.values(e)));
+        console.log("test");
+        this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
+        this.refresh();
+        //this.props.sigmaInstance.graph = JSON.stringify(graph);
         //build le squelette
         //afficher le tout
     }

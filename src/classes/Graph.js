@@ -31,12 +31,16 @@ class Graph{
         tab.forEach((node) => this.addNode(node));
     }
 
+    /**
+     *
+     * @param {Edge} edge
+     */
     addEdge(edge){
-        //add target and source nodes if they don't exist
-        if(this.nodes[edge.source.id] === undefined)
-            this.addNode(edge.source);
-        if(this.nodes[edge.target.id] === undefined)
-            this.addNode(edge.target);
+        //add target and sourceNode nodes if they don't exist
+        if(this.nodes[edge.sourceNode.id] === undefined)
+            this.addNode(edge.sourceNode);
+        if(this.nodes[edge.targetNode.id] === undefined)
+            this.addNode(edge.targetNode);
         if(this.edges[edge.id] === undefined)
             this.edges[edge.id] = edge;
         else

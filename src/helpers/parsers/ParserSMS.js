@@ -18,20 +18,20 @@ class ParserSMS {
      * @returns {{}}
      */
     static parse(file) {
-        var res = new Graph();
+        let res = new Graph();
         res.metadata.type = Graph.TYPE.classicalGraph;
 
-        var lines = file.split('\n');
+        let lines = file.split('\n');
         lines.forEach((line) => {
-            var nodes  = line.split(',');
+            let nodes  = line.split(',');
             console.log(nodes);
             if(nodes.length <= 6)
                 throw Error("fichier csv invalide");
 
-            var source = new Node(nodes[0]);
-            var target = new Node(nodes[4]);
+            let source = new Node(nodes[0]);
+            let target = new Node(nodes[4]);
             res.addNodes([source,target]);
-            var edge = new Edge(source, target);
+            let edge = new Edge(source, target);
             res.addEdge(edge);
         });
         return res;

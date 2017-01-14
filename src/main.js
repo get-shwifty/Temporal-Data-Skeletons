@@ -6,18 +6,6 @@ const WebApp = require("./components/WebApp");
 
 sigma.settings.scalingMode = "outside";
 
-//permet d'ajouter plusieurs noeuds d'un coup
-sigma.classes.graph.addMethod('addNodes', function (tab) {
-    tab.forEach((node)=> {
-        this.addNode(node);
-    });
-});
-//permet d'ajouter plusieurs edges d'un coup
-sigma.classes.graph.addMethod('addEdges', function (tab) {
-    tab.forEach((edge)=> {
-        this.addEdge(edge);
-    });
-});
 
 const s = new sigma();
 s.addRenderer({
@@ -26,7 +14,7 @@ s.addRenderer({
 });
 
 
-render(
+global.app = render(
     <WebApp sigmaInstance={s} />,
     document.getElementById("containerReact")
 );
@@ -40,41 +28,22 @@ render(
 /******** SCRIPT *********/
 
 
-
-/*function readSingleFile(evt) {
-    //Retrieve the first (and only!) File from the FileList object
-    var f = evt.target.files[0];
-
-    if (f) {
-        var r = new FileReader();
-        r.onload = function(e) {
-            var contents = e.target.result;
-            Parsesms(contents);
-        };
-        r.readAsText(f);
-    } else {
-        alert("Failed to load file");
-    }
-}
-
-document.getElementById('fileinput').addEventListener('change', readSingleFile, false);*/
-
 /******** PARSER *********/
 
-var nodesId = {};
-var nodesMap = {};
-var edgesMap = {};
-var nodesArray, edgesArray;
+let nodesId = {};
+let nodesMap = {};
+let edgesMap = {};
+let nodesArray, edgesArray;
 
 const Parsesms = function(file)
 {
-    var lines = file.split('\n');
+    let lines = file.split('\n');
     lines.forEach((line) => {
-        var nodes  = line.split(';');
+        let nodes  = line.split(';');
         if(nodes.length < 2)
             return;
-        var source = nodes[0];
-        var target = nodes[1];
+        let source = nodes[0];
+        let target = nodes[1];
 
         if(nodesMap[source] === undefined){
             nodesMap[source] = new Node(source);
@@ -100,8 +69,8 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
 
 function step(i) {
     s.graph.addNode(nodesArray[i]);
-    var e = edgesArray.filter(function(e) {
-        return s.graph.nodes(e.source)
+    let e = edgesArray.filter(function(e) {
+        return s.graph.nodes(e.sourceNode)
             && s.graph.nodes(e.target)
             && !s.graph.edges(e.id);
     });
