@@ -18,7 +18,7 @@ class TimeSkelettonBuilder {
      * @param granularity
      * @returns {Graph}
      */
-    static build(parsedData, granularity = {type:"days", increment:1}){
+    static build(parsedData, granularity){
         granularity.increment = _.toNumber(granularity.increment);
         const skeletonStrenght = 0.5;
 
@@ -44,7 +44,7 @@ class TimeSkelettonBuilder {
         let maxContactWeight = _.max(_.map(parsedData.contacts, msgs => _.sumBy(msgs, "weight")));
         //link the contacts to the skeletton according to the messages
         _.forEach(parsedData.contacts,( messages, contactID ) => {
-            let contactNode = new Node(contactID, {color: "#FBF2B7", labelColor: "node", size: Math.sqrt((_.sumBy(messages, "weight")) / maxContactWeight) * 50 + 20 });
+            let contactNode = new Node(contactID, {color: "#C40233", labelColor: "node", size: Math.sqrt((_.sumBy(messages, "weight")) / maxContactWeight) * 50 + 20 });
             let maxWeight = _.maxBy(messages, "weight").weight;
             _.forEach(messages, (msg) => {
                 let msgTimestamp = msg.timestamp;

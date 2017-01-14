@@ -22,8 +22,8 @@ class WebApp extends React.Component {
             edgeWeightInfluence: 1,
             maxNodeSize: 50,
             maxEdgeSize: 20,
-            defaultNodeColor: "#fff",
-            labelColor: "node"
+            labelColor: "node",
+            labelThreshold: 0.01
         });
     }
 
