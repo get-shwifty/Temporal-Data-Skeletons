@@ -51,8 +51,8 @@ class InputFile extends React.Component {
                 </select>
                 <select id="granularityType" ref="granularityType">
                     <option value="days">Jour</option>
-                    <option value="weeks">Semaine</option>
                     <option value="months">Mois</option>
+                    <option value="years">Années</option>
                 </select>
                 <input type="number" id="granularityInc" ref="granularityInc"/>
             </div>

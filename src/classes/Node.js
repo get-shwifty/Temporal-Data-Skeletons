@@ -14,6 +14,10 @@ class Node {
         this.y = Math.random();
         this.size = size;
     }
+
+    setColor(string){
+        this.color = string;
+    }
 }
 
 
