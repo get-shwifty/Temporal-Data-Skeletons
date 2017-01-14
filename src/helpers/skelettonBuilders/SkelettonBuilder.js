@@ -23,7 +23,7 @@ class SkelettonBuilder {
      * @returns {*}
      */
     static buildTimeSkeletton(parsedData, options = {}){
-        return timeSkeletton.build(parsedData/*,options*/); //TODO reenable options after tests are done
+        return timeSkeletton.build(parsedData,options);
     }
 }
 

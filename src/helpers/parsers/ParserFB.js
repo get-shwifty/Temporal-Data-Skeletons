@@ -23,8 +23,11 @@ class ParserFB {
      * @returns {Graph}
      */
     static parse(file) {
-        var graph = new Graph();
-        graph.metadata.type = Graph.TYPE.classicalGraph;
+        let parsedData = {
+            contacts : {  },
+            startDate:undefined,
+            endDate:undefined
+        };
 
         var doc = $.parseHTML(file);
         var contents = $(doc[4]);
@@ -32,13 +35,10 @@ class ParserFB {
         var owner = _.trim(contents.find("h1").text());
 
         // Get all edges in edgesMap
-        let edgesMap = {};
-        _.each(contents.find(".thread"), (thread) => this.parseThread(owner, thread, edgesMap));
+        _.each(contents.find(".thread"), (thread) => this.parseThread(owner, thread, parsedData));
 
-        // Add all edges to the graph
-        _.each(_.values(edgesMap), (edge) => graph.addEdge(edge));
-
-        return graph;
+        console.log(parsedData);
+        return parsedData;
     }
 
     /**
@@ -48,7 +48,7 @@ class ParserFB {
      * @param {Object} edgesMap - New edges will be set in this object, the key is the edge id and the value is the edge
      * @returns {Array}
      */
-    static parseThread(owner, thread, edgesMap)
+    static parseThread(owner, thread, parsedData)
     {
         let threadHtml = $(thread).html();
         let contacts =  _.map(threadHtml.slice(0, threadHtml.indexOf("<")).split(","), _.trim);
@@ -63,13 +63,19 @@ class ParserFB {
 
         _.each(messages, (msg) => {
             _.each(contacts, (contact) => {
-                let source = new Node(contact);
-                let target = new Node(msg.timestamp);
-                let edge = new Edge(source, target, {weight: msg.weight/contacts.length });
-                if(edgesMap[edge.id]) {
-                    edgesMap[edge.id].weight += edge.weight;
-                } else {
-                    edgesMap[edge.id] = edge;
+
+                if (parsedData.contacts[contact] === undefined) {
+                    parsedData.contacts[contact] = [];
+                }
+
+                parsedData.contacts[contact].push({timestamp: msg.timestamp, weight: msg.weight/contacts.length});
+
+                if (parsedData.startDate === undefined || msg.timestamp < parsedData.startDate) {
+                    parsedData.startDate = msg.timestamp;
+                }
+
+                if (parsedData.endDate === undefined || msg.timestamp > parsedData.endDate) {
+                    parsedData.endDate = msg.timestamp;
                 }
             });
         });

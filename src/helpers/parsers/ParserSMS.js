@@ -72,7 +72,6 @@ class ParserSMS {
         moment.locale('fr');
         let format = "YYYY-MM-DD,HH:mm:ss";
         let date = moment(day + "," + time, format);
-        console.log( day + "," + time + "  ------>   " + date.valueOf());
         return date.valueOf();
     }
 }

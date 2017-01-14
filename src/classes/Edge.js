@@ -21,7 +21,11 @@ class Edge {
         this.targetNode = t;
         this.source = s.id;
         this.target = t.id;
-        this.weight = options.weight;
+        _.assign(this, options);
+    }
+
+    setColor(string){
+        this.color = string;
     }
 }
 module.exports = Edge;
