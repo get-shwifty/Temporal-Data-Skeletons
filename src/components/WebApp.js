@@ -63,6 +63,19 @@ class WebApp extends React.Component {
     }
 
     startForceAtlas() {
+
+        //disable link display when running the force atlas
+        let skelNodes = this.props.sigmaInstance.graph.nodes().filter(n => n.type === "skeleton");
+        skelNodes = _.zipObject( _.map(skelNodes,"id"), skelNodes);
+
+        this.props.sigmaInstance.graph.edges().forEach(function(e) {
+            if( !(skelNodes[e.source] && skelNodes[e.target]))
+            {
+                e.color = 'transparent';
+            }
+        });
+
+
         this.props.sigmaInstance.startForceAtlas2({
             barnesHutOptimize: false,
             iterationsPerRender: 3,
@@ -76,6 +89,13 @@ class WebApp extends React.Component {
 
     stopForceAtlas2() {
         this.props.sigmaInstance.stopForceAtlas2();
+
+        //enable link display after running the force atlas
+        this.props.sigmaInstance.graph.edges().forEach(function(e) {
+            e.color = e.originalColor;
+        });
+
+        this.props.sigmaInstance.refresh();
     }
 
     refresh() {
