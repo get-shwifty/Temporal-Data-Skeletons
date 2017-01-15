@@ -4,7 +4,7 @@ const _ = require("lodash");
  * Node class
  */
 class Node {
-    constructor(id = "n" + Math.random() * Math.random() * 100, params = {size: 1}) {
+    constructor(id = "n" + Math.random() * Math.random() * 100, params = {size: 20}) {
         this.id = id;
         this.label = id;
         this.x = Math.random();

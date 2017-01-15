@@ -44,7 +44,7 @@ class WebApp extends React.Component {
             barnesHutOptimize: false,
             iterationsPerRender: 3,
             edgeWeightInfluence: 1,
-            maxNodeSize: 50,
+            maxNodeSize: 9999,
             maxEdgeSize: 20,
             labelColor: "node",
             labelThreshold: 0.01
@@ -73,8 +73,11 @@ class WebApp extends React.Component {
     }
 
     handlerOptionsModifications(options){
-        console.log("on rentre bien là ou il faut");
         this.props.sigmaInstance.configForceAtlas2(options);
+        if(options.filter <= 0)
+            this.props.filter.undo('filterBySize').apply();
+        else
+            this.props.filter.undo('filterBySize').nodesBy(n => {return (n.size > options.filter && n.type !== "skeleton") || n.type === "skeleton" }, 'filterBySize').apply();
 
     }
 

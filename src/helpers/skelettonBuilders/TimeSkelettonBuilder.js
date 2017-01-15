@@ -35,16 +35,16 @@ class TimeSkelettonBuilder {
 
         //create skelleton nodes
         while(currentDate <= parsedData.endDate){
-            let source = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#0F056B", labelColor: "node", size: 2, mass: 1e-10});
+            let source = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 2, mass: 1e-10});
             currentDate.add(granularity.increment, granularity.type);
-            let target = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#0F056B", labelColor: "node", size: 2, mass: 1e-10});
-            res.addEdge(new Edge(source, target, {weight: skeletonStrenght, color: "#0F056B", size: 10}));
+            let target = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 2, mass: 1e-10, type: "skeleton"});
+            res.addEdge(new Edge(source, target, {weight: skeletonStrenght, color: "#209ebe", size: 10}));
         }
 
         let maxContactWeight = _.max(_.map(parsedData.contacts, msgs => _.sumBy(msgs, "weight")));
-        //link the contacts to the skeletton according to the messages
+        //link the contacts to the skeleton according to the messages
         _.forEach(parsedData.contacts,( messages, contactID ) => {
-            let contactNode = new Node(contactID, {color: "#C40233", labelColor: "node", size: Math.sqrt((_.sumBy(messages, "weight")) / maxContactWeight) * 50 + 20 });
+            let contactNode = new Node(contactID, {color: "#ae3909", labelColor: "node", size: Math.sqrt((_.sumBy(messages, "weight")) / maxContactWeight) * 200 + 20 });
             let maxWeight = _.maxBy(messages, "weight").weight;
             _.forEach(messages, (msg) => {
                 let msgTimestamp = msg.timestamp;
@@ -55,7 +55,7 @@ class TimeSkelettonBuilder {
                 let closestTime = moment( msgTimestamp - gapWithPreviousDay ).format ( timeFormats[ granularity.type ] );
 
                 let target = new Node(closestTime);
-                res.addEdge(new Edge(contactNode, target, {color: "rgba(0,0,0,80)", weight: Math.pow(msg.weight / maxWeight, 2) /10, mass: 1}));
+                res.addEdge(new Edge(contactNode, target, {color: "rgba(0,0,0,0.25)", weight: Math.pow(msg.weight / maxWeight, 2) /10, mass: 1}));
             });
         });
 

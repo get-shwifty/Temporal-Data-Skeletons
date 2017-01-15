@@ -19,6 +19,8 @@ sigma.classes.graph.addMethod('neighbors', function(nodeId) {
 
 
 const s = new sigma();
+const f = new sigma.plugins.filter(s);
+
 s.addRenderer({
     type: "canvas",
     container: "container"
@@ -26,7 +28,7 @@ s.addRenderer({
 
 
 global.app = render(
-    <WebApp sigmaInstance={s} />,
+    <WebApp sigmaInstance={s} filter={f}/>,
     document.getElementById("containerReact")
 );
 
