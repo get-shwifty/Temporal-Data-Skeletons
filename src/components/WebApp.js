@@ -8,6 +8,7 @@ const Builder = require("../helpers/skelettonBuilders/SkelettonBuilder");
 const Graph = require("../classes/Graph");
 const Node = require("../classes/Node");
 const Edge = require("../classes/Edge");
+const moment = require("moment");
 
 class WebApp extends React.Component {
 
@@ -80,8 +81,6 @@ class WebApp extends React.Component {
             barnesHutOptimize: false,
             iterationsPerRender: 3,
             edgeWeightInfluence: 1,
-            maxNodeSize: 9999,
-            maxEdgeSize: 20,
             labelColor: "node",
             labelThreshold: 0.01
         });
@@ -122,11 +121,29 @@ class WebApp extends React.Component {
 
     handlerOptionsModifications(options){
         this.props.sigmaInstance.configForceAtlas2(options);
+        if(options.gravity == "") options.gravity = 1;
+        if(options.edgeWeightInfluence == "") options.edgeWeightInfluence = 1;
         if(options.filter <= 0)
             this.props.filter.undo('filterBySize').apply();
         else
             this.props.filter.undo('filterBySize').nodesBy(n => {return (n.size > options.filter && n.type !== "skeleton") || n.type === "skeleton" }, 'filterBySize').apply();
-
+        if(options.beginning !== "") {
+            options.beginning = moment(options.beginning, 'YYYY-MM-DD').valueOf();
+        }
+        else
+            options.beginning = -Infinity;
+        if(options.ending !== ""){
+            options.ending = moment(options.ending, 'YYYY-MM-DD').valueOf();
+        }
+        else
+            options.ending = +Infinity;
+        this.props.filter.undo('filterByDate').nodesBy(n => {
+            console.log(n.type + " " + n.id);
+            return ( (n.type === "skeleton"
+                && n.id >= options.beginning
+                && n.id <= options.ending)
+            || n.type != "skeleton" )
+        }, 'filterByDate');
     }
 
     render() {
