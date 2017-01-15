@@ -35,9 +35,9 @@ class TimeSkelettonBuilder {
 
         //create skelleton nodes
         while(currentDate <= parsedData.endDate){
-            let source = new Node(currentDate.format("DD-MM-YYYY"), {color: "#0F056B", labelColor: "node", size: 2, mass: 1e-10});
+            let source = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#0F056B", labelColor: "node", size: 2, mass: 1e-10});
             currentDate.add(granularity.increment, granularity.type);
-            let target = new Node(currentDate.format("DD-MM-YYYY"), {color: "#0F056B", labelColor: "node", size: 2, mass: 1e-10});
+            let target = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#0F056B", labelColor: "node", size: 2, mass: 1e-10});
             res.addEdge(new Edge(source, target, {weight: skeletonStrenght, color: "#0F056B", size: 10}));
         }
 
@@ -55,7 +55,7 @@ class TimeSkelettonBuilder {
                 let closestTime = moment( msgTimestamp - gapWithPreviousDay ).format ( timeFormats[ granularity.type ] );
 
                 let target = new Node(closestTime);
-                res.addEdge(new Edge(contactNode, target, {color: "transparent", weight: Math.pow(msg.weight / maxWeight, 2) /10, mass: 1}));
+                res.addEdge(new Edge(contactNode, target, {color: "rgba(0,0,0,80)", weight: Math.pow(msg.weight / maxWeight, 2) /10, mass: 1}));
             });
         });
 
