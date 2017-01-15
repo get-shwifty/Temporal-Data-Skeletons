@@ -110,7 +110,7 @@ class WebApp extends React.Component {
     }
 
     handlerFileUpload(content,options){
-        var graph = Parser.parse(content,options.type);
+        let graph = Parser.parse(content,options.type);
         console.log(graph);
         graph = Builder.build(graph,options.build);
         console.log(_.mapValues(graph, (e) => _.values(e)));

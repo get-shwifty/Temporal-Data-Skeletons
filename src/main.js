@@ -24,7 +24,10 @@ const f = new sigma.plugins.filter(s);
 s.addRenderer({
     type: "canvas",
     container: "container"
-});
+    })
+    .settings({
+        'maxNodeSize':35
+    });
 
 
 global.app = render(
