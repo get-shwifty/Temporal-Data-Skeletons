@@ -16,7 +16,10 @@ class WebApp extends React.Component {
         autoBind(this);
 
         this.props.sigmaInstance.bind('clickNode', (e) => {
-            console.log("node clicked bitches");
+            if( this.props.sigmaInstance.isForceAtlas2Running() ){
+                return;
+            }
+
             var nodeId = e.data.node.id,
                 toKeep = this.props.sigmaInstance.graph.neighbors(nodeId);
             toKeep[nodeId] = e.data.node;
@@ -49,6 +52,10 @@ class WebApp extends React.Component {
         });
 
         this.props.sigmaInstance.bind('clickStage', (e) => {
+            if( this.props.sigmaInstance.isForceAtlas2Running() ){
+                return;
+            }
+
             this.props.sigmaInstance.graph.nodes().forEach(function(n) {
                 n.color = n.originalColor;
             });
