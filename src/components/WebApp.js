@@ -14,6 +14,29 @@ class WebApp extends React.Component {
     constructor(props) {
         super(props);
         autoBind(this);
+
+        this.props.sigmaInstance.bind('clickNode', (e) => {
+            console.log("node clicked bitches");
+            var nodeId = e.data.node.id,
+                toKeep = this.props.sigmaInstance.graph.neighbors(nodeId);
+            toKeep[nodeId] = e.data.node;
+
+            this.props.sigmaInstance.graph.nodes().forEach(function (n) {
+                if (toKeep[n.id])
+                    n.color = "green";
+                else
+                    n.color = '#eee';
+            });
+
+            this.props.sigmaInstance.graph.edges().forEach(function(e) {
+                if (toKeep[e.source] && toKeep[e.target])
+                    e.color = e.originalColor;
+                else
+                    e.color = '#eee';
+            });
+
+            this.props.sigmaInstance.refresh();
+        });
     }
 
     startForceAtlas() {

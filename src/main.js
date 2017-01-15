@@ -6,6 +6,17 @@ const WebApp = require("./components/WebApp");
 
 sigma.settings.scalingMode = "outside";
 
+sigma.classes.graph.addMethod('neighbors', function(nodeId) {
+    var k,
+        neighbors = {},
+        index = this.allNeighborsIndex[nodeId] || {};
+
+    for (k in index)
+        neighbors[k] = this.nodesIndex[k];
+
+    return neighbors;
+});
+
 
 const s = new sigma();
 s.addRenderer({
@@ -26,43 +37,6 @@ global.app = render(
 ////////////////////////////////////////////////////////////
 
 /******** SCRIPT *********/
-
-
-/******** PARSER *********/
-
-let nodesId = {};
-let nodesMap = {};
-let edgesMap = {};
-let nodesArray, edgesArray;
-
-const Parsesms = function(file)
-{
-    let lines = file.split('\n');
-    lines.forEach((line) => {
-        let nodes  = line.split(';');
-        if(nodes.length < 2)
-            return;
-        let source = nodes[0];
-        let target = nodes[1];
-
-        if(nodesMap[source] === undefined){
-            nodesMap[source] = new Node(source);
-        }
-        if(nodesMap[target] === undefined){
-            nodesMap[target] = new Node(target);
-        }
-        if(edgesMap[source+";"+target] === undefined) {
-            edgesMap[source+";"+target] = new Edge(source, target);
-        }
-        else{
-            edgesMap[source+";"+target].weight++;
-        }
-    });
-
-    nodesArray = _.values(nodesMap);
-    edgesArray = _.values(edgesMap);
-    step(0);
-};
 
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
     window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
