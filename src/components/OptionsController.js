@@ -33,15 +33,15 @@ class OptionsController extends React.Component {
             <div className="container">
                 <div className="sliderContainer" onChange={this.handleChange}>
                     <span>Edge Weight Influence</span>
-                    <input type="number" placeholder="value" ref="edgeWeightInfluence"/>
+                    <input type="number" placeholder="value" min="0" max="5" step="0.1" ref="edgeWeightInfluence"/>
                 </div>
                 <div className="sliderContainer" onChange={this.handleChange}>
                     <span>Gravity</span>
-                    <input type="number" placeholder="value" ref="gravity"/>
+                    <input type="number" placeholder="value" min="0" max="5" step="0.1" ref="gravity"/>
                 </div>
                 <div className="sliderContainer" onChange={this.handleChange}>
                     <span>Filter Node by Edges</span>
-                    <input type="number" placeholder="value" ref="filter"/>
+                    <input type="number" placeholder="value" step="1" ref="filter"/>
                 </div>
                 <div className="sliderContainer" onChange={this.handleChange}>
                     <span>Skeleton Beginning</span>
