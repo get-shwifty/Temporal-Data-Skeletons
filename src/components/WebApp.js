@@ -19,7 +19,7 @@ class WebApp extends React.Component {
             if( this.props.sigmaInstance.isForceAtlas2Running() ){
                 return;
             }
-
+            var clickedNode = e.data.node;
             var nodeId = e.data.node.id,
                 toKeep = this.props.sigmaInstance.graph.neighbors(nodeId);
             toKeep[nodeId] = e.data.node;
@@ -34,14 +34,14 @@ class WebApp extends React.Component {
                     n.color = '#eee';
             });
 
-            this.props.sigmaInstance.graph.edges().forEach(function(e) {
+            this.props.sigmaInstance.graph.edges().forEach((e) => {
                 if ( ( toKeep[e.source] && ( toKeep[e.target] || skelNodes[e.target] ) )
                 || ( toKeep[e.target] && ( toKeep[e.source] || skelNodes[e.source] ) ) )
                 {
-                    e.color = e.originalColor;
+                    e.color = clickedNode.color;
                 }
                 else if (skelNodes[e.source] && skelNodes[e.target] ){
-                    e.color =  "#000000";
+                    e.color =  e.originalColor;
                 }
                 else{
                     e.color = 'transparent';
