@@ -35,7 +35,8 @@ class TimeSkelettonBuilder {
 
         //create skelleton nodes
         while(currentDate <= parsedData.endDate){
-            let source = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 0.000001, mass: 1e-10});
+
+            let source = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 2, mass: 1e-10, type: "skeleton"});
             currentDate.add(granularity.increment, granularity.type);
             let target = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton"});
             res.addEdge(new Edge(source, target, {weight: skeletonStrength, color: "#209ebe", size: 10}));
