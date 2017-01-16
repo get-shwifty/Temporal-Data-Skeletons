@@ -136,6 +136,18 @@ class WebApp extends React.Component {
 
     }
 
+    changeEdgesSkin(){
+        _.map(this.props.sigmaInstance.graph.edges(),e => {
+            if(e.type === "curve"){
+                e.type = "line";
+            }
+            else if(e.type === "line"){
+                e.type = "curve"
+            }
+        });
+        this.props.sigmaInstance.refresh();
+    }
+
     render() {
         return (
             <nav id="menu">
@@ -143,7 +155,7 @@ class WebApp extends React.Component {
                 <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas</button>
                 <button id ="stopf2" className="myButton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
                 <button id="refresh" className="myButton" onClick={this.refresh}> Refresh </button>
-                <OptionsController onOptionsChange={this.handlerOptionsModifications}/>
+                <OptionsController onOptionsChange={this.handlerOptionsModifications} onEdgeChange={this.changeEdgesSkin}/>
             </nav>
         )
     }
