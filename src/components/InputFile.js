@@ -52,6 +52,11 @@ class InputFile extends React.Component {
                     <option value="SMS">Données SMS (smsToText)</option>
                     <option value="CSV">Fichier CSV</option>
                 </select>
+                <select className="mySelect" id="skeletonType" ref="skeletonType">
+                    <option value="simple">Simple Time Skeleton</option>
+                    <option value="cyclic">Cyclic Time Skeleton</option>
+                    <option value="multi">Multiple Time Skeleton</option>
+                </select>
                 <select className="mySelect" id="granularityType" ref="granularityType">
                     <option value="days">Jours</option>
                     <option value="months">Mois</option>

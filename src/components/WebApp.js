@@ -154,7 +154,6 @@ class WebApp extends React.Component {
                 <InputFile onFileUpload={this.handlerFileUpload}/>
                 <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas</button>
                 <button id ="stopf2" className="myButton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
-                <button id="refresh" className="myButton" onClick={this.refresh}> Refresh </button>
                 <OptionsController onOptionsChange={this.handlerOptionsModifications} onEdgeChange={this.changeEdgesSkin}/>
             </nav>
         )
