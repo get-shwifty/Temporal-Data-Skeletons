@@ -62,8 +62,6 @@ class TimeSkelettonBuilder {
                 let index = interpolationSearch(skelTimestamps, msgTimestamp);
 
                 let target = new Node(skelTimestamps[index]);
-                console.log(index);
-                console.log(target);
 
                 res.addEdge(new Edge(contactNode, target, {color: "rgba(0,0,0,0.05)", weight: Math.pow(msg.weight / maxWeight, 2) /10, mass: 1, type:'curve'}));
             });
