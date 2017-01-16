@@ -110,11 +110,10 @@ class WebApp extends React.Component {
     }
 
     handlerFileUpload(content,options){
-        let graph = Parser.parse(content,options.type);
-        console.log(graph);
-        graph = Builder.build(graph,options.build);
-        console.log(_.mapValues(graph, (e) => _.values(e)));
-        console.log("test");
+        let parsedData = Parser.parse(content,options.type);
+        this.setState( {parsedData});
+        console.log(parsedData);
+        let graph = Builder.build(parsedData,options.build);
         this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
         this.refresh();
 
@@ -148,11 +147,29 @@ class WebApp extends React.Component {
         this.props.sigmaInstance.refresh();
     }
 
+    refreshGranularity(options){
+        let wasFA2Running = this.props.sigmaInstance.isForceAtlas2Running();
+        this.props.sigmaInstance.killForceAtlas2();
+
+        let graph = Builder.build(this.state.parsedData,options.build);
+        this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
+        this.refresh();
+
+        this.props.sigmaInstance.graph.nodes().forEach(function(n) {
+            n.originalColor = n.color;
+        });
+        this.props.sigmaInstance.graph.edges().forEach(function(e) {
+            e.originalColor = e.color;
+        });
+
+        this.startForceAtlas();
+    }
+
     render() {
         return (
             <nav id="menu">
-                <InputFile onFileUpload={this.handlerFileUpload}/>
-                <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas</button>
+                <InputFile onFileUpload={this.handlerFileUpload} onRefreshGranularity={this.refreshGranularity}/>
+                <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas </button>
                 <button id ="stopf2" className="myButton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
                 <button id="refresh" className="myButton" onClick={this.refresh}> Refresh </button>
                 <OptionsController onOptionsChange={this.handlerOptionsModifications} onEdgeChange={this.changeEdgesSkin}/>
