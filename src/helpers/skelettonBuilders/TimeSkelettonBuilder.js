@@ -56,14 +56,6 @@ class TimeSkelettonBuilder {
             let contactNode = new Node(contactID, {color: "#d54209", labelColor: "node", size: Math.sqrt((_.sumBy(messages, "weight")) / maxContactWeight) * 33 + 2});
             let maxWeight = _.maxBy(messages, "weight").weight;
             _.forEach(messages, (msg) => {
-                /*let msgTimestamp = msg.timestamp;
-                let startDateTimestamp = parsedData.startDate;
-                let interval = moment.duration(granularity.increment, granularity.type).asMilliseconds();
-
-                let gapWithPreviousDay = ( msgTimestamp  - startDateTimestamp)%interval;
-                let closestTime = moment( msgTimestamp - gapWithPreviousDay );
-
-                let target = new Node(closestTime.valueOf());*/
 
                 let msgTimestamp = msg.timestamp;
 
