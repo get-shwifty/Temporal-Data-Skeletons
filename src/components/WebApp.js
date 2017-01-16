@@ -8,19 +8,21 @@ const Builder = require("../helpers/skelettonBuilders/SkelettonBuilder");
 const Graph = require("../classes/Graph");
 const Node = require("../classes/Node");
 const Edge = require("../classes/Edge");
+const moment = require("moment");
 
 class WebApp extends React.Component {
 
     constructor(props) {
         super(props);
         autoBind(this);
+        this.state = {};
 
         this.props.sigmaInstance.bind('clickNode', (e) => {
             if( this.props.sigmaInstance.isForceAtlas2Running() ){
                 return;
             }
-            var clickedNode = e.data.node;
-            var nodeId = e.data.node.id,
+            let clickedNode = e.data.node;
+            let nodeId = e.data.node.id,
                 toKeep = this.props.sigmaInstance.graph.neighbors(nodeId);
             toKeep[nodeId] = e.data.node;
 
@@ -116,6 +118,7 @@ class WebApp extends React.Component {
         console.log(_.mapValues(graph, (e) => _.values(e)));
         console.log("test");
         this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
+        this.setState({'savedNodes': this.props.sigmaInstance.graph.nodes(), 'savedEdges': this.props.sigmaInstance.graph.edges()});
         this.refresh();
 
 
@@ -127,13 +130,56 @@ class WebApp extends React.Component {
         });
     }
 
+    rebuildGraph(params) {
+        let set = new Set();
+        let nodes = _.filter(this.state.savedNodes, n => {
+            if ((n.size > params.filter && n.type !== "skeleton")
+                || (n.type === "skeleton" && n.id >= params.beginning && n.id <= params.ending)) {
+                set.add(n.id);
+                return true;
+            }
+            return false;
+        });
+        let edges = _.filter(this.state.savedEdges, e => {
+            return set.has(e.source) && set.has(e.target);
+        });
+        this.props.sigmaInstance.graph.clear().read({nodes, edges});
+        this.refresh();
+
+            //.read(_.mapValues(this.state.savedGraph, (e) => _.values(e)))
+    }
+
     handlerOptionsModifications(options){
+
+        if(options.gravity == "") options.gravity = 1;
+        if(options.edgeWeightInfluence == "") options.edgeWeightInfluence = 1;
         this.props.sigmaInstance.configForceAtlas2(options);
-        if(options.filter <= 0)
+
+        /*if(options.filter <= 0)
             this.props.filter.undo('filterBySize').apply();
         else
-            this.props.filter.undo('filterBySize').nodesBy(n => {return (n.size > options.filter && n.type !== "skeleton") || n.type === "skeleton" }, 'filterBySize').apply();
+            this.rebuildGraph(this.state.savedGraph);
+            this.props.filter.undo('filterBySize').nodesBy(n => {return (n.size > options.filter && n.type !== "skeleton") || n.type === "skeleton" }, 'filterBySize').apply();*/
 
+        if(options.beginning !== "") {
+            options.beginning = moment(options.beginning, 'YYYY-MM-DD').valueOf();
+        }
+        else {
+            options.beginning = -Infinity;
+        }
+        if(options.ending !== ""){
+            options.ending = moment(options.ending, 'YYYY-MM-DD').valueOf();
+        }
+        else {
+            options.ending = +Infinity;
+        }
+        /*this.props.filter.undo('filterByDate').nodesBy(n => {
+            return ( (n.type === "skeleton"
+                && n.id >= options.beginning
+                && n.id <= options.ending)
+                || n.type != "skeleton" )
+        }, 'filterByDate').apply();*/
+        this.rebuildGraph(options);
     }
 
     changeEdgesSkin(){
@@ -147,6 +193,8 @@ class WebApp extends React.Component {
         });
         this.props.sigmaInstance.refresh();
     }
+
+
 
     render() {
         return (
