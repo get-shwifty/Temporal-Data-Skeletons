@@ -50,7 +50,8 @@ class Graph{
     static TYPE = {
         'classicalGraph' : 'classicalGraph',
         'timeSkelettonGraph' :'timeSkelettonGraph',
-        'amountSkelettonGraph' : 'amountSkelettonGraph'
+        'amountSkelettonGraph' : 'amountSkelettonGraph',
+        'circularSkelettonGraph' : 'circularSkelettonGraph'
     }
 }
 

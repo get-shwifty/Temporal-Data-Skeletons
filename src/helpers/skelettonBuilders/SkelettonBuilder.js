@@ -4,6 +4,7 @@
 
 const _ = require("lodash");
 const timeSkeletton = require("./TimeSkelettonBuilder");
+const circularSkeleton = require("./CircularSkelettonBuilder");
 
 
 /**
@@ -14,6 +15,8 @@ class SkelettonBuilder {
         switch(options.buildType){
             case "time":
                 return this.buildTimeSkeletton(parsedData,options.granularity);
+            case "circular":
+                return this.buildCircularSkeletton(parsedData,options.granularity);
         }
     }
     /**
@@ -24,6 +27,10 @@ class SkelettonBuilder {
      */
     static buildTimeSkeletton(parsedData, options = {}){
         return timeSkeletton.build(parsedData,options);
+    }
+
+    static buildCircularSkeletton(parsedData, options = {} ){
+        return circularSkeleton.build(parsedData,options);
     }
 }
 

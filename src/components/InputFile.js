@@ -31,7 +31,7 @@ class InputFile extends React.Component {
                 let options = {
                     type: this.refs.parseType.value,
                     build: {
-                        buildType: "time",
+                        buildType: this.refs.buildType.value,
                         granularity: {
                             type: this.refs.granularityType.value,
                             increment: this.state.granularity.increment
