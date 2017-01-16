@@ -14,6 +14,12 @@ class InputFile extends React.Component {
     constructor(props) {
         super(props);
         autoBind(this);
+        this.state = {
+            granularity: {
+                increment: 1,
+                type : "days"
+            }
+        }
     }
 
     handleChange(evt){
@@ -28,7 +34,7 @@ class InputFile extends React.Component {
                         buildType: "time",
                         granularity: {
                             type: this.refs.granularityType.value,
-                            increment: this.refs.granularityInc.value
+                            increment: this.state.granularity.increment
                         }
                     }
                 };
@@ -40,6 +46,31 @@ class InputFile extends React.Component {
         }
     }
 
+    refreshGranularity()
+    {
+        let options = {
+            type: this.refs.parseType.value,
+            build: {
+                buildType: "time",
+                granularity: {
+                    type: this.refs.granularityType.value,
+                    increment: this.state.granularity.increment
+                }
+            }
+        };
+
+        this.props.onRefreshGranularity(options);
+    }
+
+    granularityIncrementChanged(e) {
+        this.setState({
+            granularity: {
+                type: this.state.type,
+                increment: e.target.value
+            }
+        });
+    }
+
     render() {
         return (
             <div id="inputFile">
@@ -47,6 +78,11 @@ class InputFile extends React.Component {
                     <input type="file" id="fileInput" onChange={this.handleChange}/>
                     Upload File
                 </label>
+                <select className="mySelect" id="buildType" ref="buildType">
+                    <option value="time">squeletteTemporel</option>
+                    <option value="circular">squelette circulaire</option>
+                    <option value="multi">Multi squelette</option>
+                </select>
                 <select className="mySelect" id="parseType" ref="parseType">
                     <option value="Facebook">Données facebook</option>
                     <option value="SMS">Données SMS (smsToText)</option>
@@ -62,7 +98,8 @@ class InputFile extends React.Component {
                     <option value="months">Mois</option>
                     <option value="years">Années</option>
                 </select>
-                <input type="number" id="granularityInc" ref="granularityInc" />
+                <input type="number" id="granularityInc" ref="granularityInc" onChange={this.granularityIncrementChanged} value={this.state.granularity.increment} />
+                <button id="granularityRefresh" className="myButton" onClick={this.refreshGranularity}>Refresh Granularity</button>
             </div>
         )
     }

@@ -107,18 +107,31 @@ class WebApp extends React.Component {
         this.props.sigmaInstance.refresh();
     }
 
+    restartForceAtlas(){
+        let wasFA2Running = this.props.sigmaInstance.isForceAtlas2Running();
+        this.props.sigmaInstance.killForceAtlas2();
+        this.saveGraph();
+        if(wasFA2Running) this.startForceAtlas();
+    }
+
     refresh() {
         this.props.sigmaInstance.refresh();
     }
 
+    saveGraph(){
+        let nodes = this.props.sigmaInstance.graph.nodes();
+        nodes.forEach(n => {
+            n.savedDegree = this.props.sigmaInstance.graph.degree(n.id);
+        });
+        this.setState({'savedNodes': nodes, 'savedEdges': this.props.sigmaInstance.graph.edges()});
+    }
+
     handlerFileUpload(content,options){
-        let graph = Parser.parse(content,options.type);
-        console.log(graph);
-        graph = Builder.build(graph,options.build);
-        console.log(_.mapValues(graph, (e) => _.values(e)));
-        console.log("test");
+        let parsedData = Parser.parse(content,options.type);
+        this.setState( {parsedData});
+        let graph = Builder.build(parsedData,options.build);
         this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
-        this.setState({'savedNodes': this.props.sigmaInstance.graph.nodes(), 'savedEdges': this.props.sigmaInstance.graph.edges()});
+        this.saveGraph();
         this.refresh();
 
 
@@ -130,11 +143,11 @@ class WebApp extends React.Component {
         });
     }
 
-    rebuildGraph(params) {
+    rebuildGraph() {
         let set = new Set();
         let nodes = _.filter(this.state.savedNodes, n => {
-            if ((n.size > params.filter && n.type !== "skeleton")
-                || (n.type === "skeleton" && n.id >= params.beginning && n.id <= params.ending)) {
+            if ((n.savedDegree > this.state.filterParams.filter && n.type !== "skeleton")
+                || (n.type === "skeleton" && n.id >= this.state.filterParams.beginning && n.id <= this.state.filterParams.ending)) {
                 set.add(n.id);
                 return true;
             }
@@ -149,17 +162,13 @@ class WebApp extends React.Component {
             //.read(_.mapValues(this.state.savedGraph, (e) => _.values(e)))
     }
 
+
     handlerOptionsModifications(options){
 
         if(options.gravity == "") options.gravity = 1;
         if(options.edgeWeightInfluence == "") options.edgeWeightInfluence = 1;
         this.props.sigmaInstance.configForceAtlas2(options);
-
-        /*if(options.filter <= 0)
-            this.props.filter.undo('filterBySize').apply();
-        else
-            this.rebuildGraph(this.state.savedGraph);
-            this.props.filter.undo('filterBySize').nodesBy(n => {return (n.size > options.filter && n.type !== "skeleton") || n.type === "skeleton" }, 'filterBySize').apply();*/
+        if(options.filter == "") options.filter = 1;
 
         if(options.beginning !== "") {
             options.beginning = moment(options.beginning, 'YYYY-MM-DD').valueOf();
@@ -173,13 +182,11 @@ class WebApp extends React.Component {
         else {
             options.ending = +Infinity;
         }
-        /*this.props.filter.undo('filterByDate').nodesBy(n => {
-            return ( (n.type === "skeleton"
-                && n.id >= options.beginning
-                && n.id <= options.ending)
-                || n.type != "skeleton" )
-        }, 'filterByDate').apply();*/
-        this.rebuildGraph(options);
+
+        this.setState({filterParams: options});
+        this.saveGraph();
+        this.rebuildGraph();
+        this.restartForceAtlas();
     }
 
     changeEdgesSkin(){
@@ -194,13 +201,29 @@ class WebApp extends React.Component {
         this.props.sigmaInstance.refresh();
     }
 
+    refreshGranularity(options){
+        let wasFA2Running = this.props.sigmaInstance.isForceAtlas2Running();
+        this.props.sigmaInstance.killForceAtlas2();
 
+        let graph = Builder.build(this.state.parsedData,options.build);
+        this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
+        this.refresh();
+
+        this.props.sigmaInstance.graph.nodes().forEach(function(n) {
+            n.originalColor = n.color;
+        });
+        this.props.sigmaInstance.graph.edges().forEach(function(e) {
+            e.originalColor = e.color;
+        });
+        this.rebuildGraph();
+        if(wasFA2Running) this.startForceAtlas();
+    }
 
     render() {
         return (
             <nav id="menu">
-                <InputFile onFileUpload={this.handlerFileUpload}/>
-                <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas</button>
+                <InputFile onFileUpload={this.handlerFileUpload} onRefreshGranularity={this.refreshGranularity}/>
+                <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas </button>
                 <button id ="stopf2" className="myButton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
                 <OptionsController onOptionsChange={this.handlerOptionsModifications} onEdgeChange={this.changeEdgesSkin}/>
             </nav>
