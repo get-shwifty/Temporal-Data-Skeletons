@@ -36,9 +36,9 @@ class TimeSkelettonBuilder {
         //create skelleton nodes
         while(currentDate <= parsedData.endDate){
 
-            let source = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 2, mass: 1e-10, type: "skeleton"});
+            let source = new Node(currentDate.valueOf(), {color: "#209ebe", labelColor: "node", size: 2, mass: 1e-10, type: "skeleton", label: currentDate.format( timeFormats[ granularity.type ] )+" : "+currentDate.valueOf()});
             currentDate.add(granularity.increment, granularity.type);
-            let target = new Node(currentDate.format( timeFormats[ granularity.type ] ), {color: "#209ebe", labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton"});
+            let target = new Node(currentDate.valueOf(), {color: "#209ebe", labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton", label: currentDate.format( timeFormats[ granularity.type ] )+" : "+currentDate.valueOf()});
             res.addEdge(new Edge(source, target, {weight: skeletonStrength, color: "#209ebe", size: 10}));
         }
 
@@ -53,9 +53,9 @@ class TimeSkelettonBuilder {
                 let interval = moment.duration(granularity.increment, granularity.type).asMilliseconds();
 
                 let gapWithPreviousDay = ( msgTimestamp  - startDateTimestamp)%interval;
-                let closestTime = moment( msgTimestamp - gapWithPreviousDay ).format ( timeFormats[ granularity.type ] );
+                let closestTime = moment( msgTimestamp - gapWithPreviousDay );//.format ( timeFormats[ granularity.type ] );
 
-                let target = new Node(closestTime);
+                let target = new Node(closestTime.valueOf(), { color: "#209ebe", labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton", label: closestTime.format( timeFormats[ granularity.type ] )+" : "+closestTime.valueOf()} );
                 res.addEdge(new Edge(contactNode, target, {color: "rgba(0,0,0,0.05)", weight: Math.pow(msg.weight / maxWeight, 2) /10, mass: 1, type:'curve'}));
             });
         });

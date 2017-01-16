@@ -28,6 +28,10 @@ class OptionsController extends React.Component {
         this.props.onOptionsChange(options);
     }
 
+    changeEdges(){
+       this.props.onEdgeChange();
+    }
+
     render() {
         return (
             <div className="container">
@@ -50,6 +54,9 @@ class OptionsController extends React.Component {
                 <div className="sliderContainer" onChange={this.handleChange}>
                     <span>Skeleton Ending</span>
                     <input type="date" placeholder="value" ref="ending"/>
+                </div>
+                <div className="buttonContainer" >
+                    <div className="myButton" onClick={this.changeEdges}> Change Edge Skin </div>
                 </div>
             </div>
         )
