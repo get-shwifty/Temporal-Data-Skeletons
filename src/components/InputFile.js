@@ -78,20 +78,16 @@ class InputFile extends React.Component {
                     <input type="file" id="fileInput" onChange={this.handleChange}/>
                     Upload File
                 </label>
-                <select className="mySelect" id="buildType" ref="buildType">
-                    <option value="time">squeletteTemporel</option>
-                    <option value="circular">squelette circulaire</option>
-                    <option value="multi">Multi squelette</option>
-                </select>
+
                 <select className="mySelect" id="parseType" ref="parseType">
                     <option value="Facebook">Données facebook</option>
                     <option value="SMS">Données SMS (smsToText)</option>
                     <option value="CSV">Fichier CSV</option>
                 </select>
-                <select className="mySelect" id="skeletonType" ref="skeletonType">
-                    <option value="simple">Simple Time Skeleton</option>
-                    <option value="cyclic">Cyclic Time Skeleton</option>
-                    <option value="multi">Multiple Time Skeleton</option>
+                <select className="mySelect" id="buildType" ref="buildType">
+                    <option value="time">squeletteTemporel</option>
+                    <option value="circular">squelette circulaire</option>
+                    <option value="multi">Multi squelette</option>
                 </select>
                 <select className="mySelect" id="granularityType" ref="granularityType">
                     <option value="days">Jours</option>

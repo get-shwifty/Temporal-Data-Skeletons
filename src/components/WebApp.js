@@ -110,7 +110,7 @@ class WebApp extends React.Component {
     restartForceAtlas(){
         let wasFA2Running = this.props.sigmaInstance.isForceAtlas2Running();
         this.props.sigmaInstance.killForceAtlas2();
-        this.saveGraph();
+        //this.saveGraph();
         if(wasFA2Running) this.startForceAtlas();
     }
 
@@ -164,10 +164,6 @@ class WebApp extends React.Component {
 
 
     handlerOptionsModifications(options){
-
-        if(options.gravity == "") options.gravity = 1;
-        if(options.edgeWeightInfluence == "") options.edgeWeightInfluence = 1;
-        this.props.sigmaInstance.configForceAtlas2(options);
         if(options.filter == "") options.filter = 1;
 
         if(options.beginning !== "") {
@@ -183,10 +179,16 @@ class WebApp extends React.Component {
             options.ending = +Infinity;
         }
 
-        this.setState({filterParams: options});
-        this.saveGraph();
-        this.rebuildGraph();
         this.restartForceAtlas();
+        this.setState({filterParams: options});
+        //this.saveGraph();
+        this.rebuildGraph();
+    }
+
+    handlerForceAtlasOptionsChange(options){
+        if(options.gravity == "") options.gravity = 1;
+        if(options.edgeWeightInfluence == "") options.edgeWeightInfluence = 1;
+        this.props.sigmaInstance.configForceAtlas2(options);
     }
 
     changeEdgesSkin(){
@@ -225,7 +227,7 @@ class WebApp extends React.Component {
                 <InputFile onFileUpload={this.handlerFileUpload} onRefreshGranularity={this.refreshGranularity}/>
                 <button id="startf2" className="myButton" onClick={this.startForceAtlas}>Start Force Atlas </button>
                 <button id ="stopf2" className="myButton" onClick={this.stopForceAtlas2}> Stop Force Atlas</button>
-                <OptionsController onOptionsChange={this.handlerOptionsModifications} onEdgeChange={this.changeEdgesSkin}/>
+                <OptionsController onOptionsChange={this.handlerOptionsModifications} onEdgeChange={this.changeEdgesSkin} onForceAtlasOptionsChange={this.handlerForceAtlasOptionsChange}/>
             </nav>
         )
     }

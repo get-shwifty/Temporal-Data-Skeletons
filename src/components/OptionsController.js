@@ -18,14 +18,20 @@ class OptionsController extends React.Component {
 
     handleChange(){
         let options = {
-            edgeWeightInfluence : this.refs.edgeWeightInfluence.value,
-            gravity: this.refs.gravity.value,
             filter: this.refs.filter.value,
             beginning: this.refs.beginning.value,
             ending: this.refs.ending.value
         };
         console.log(options);
         this.props.onOptionsChange(options);
+    }
+
+    handleForceAtlasChange(){
+        let options = {
+            edgeWeightInfluence : this.refs.edgeWeightInfluence.value,
+            gravity: this.refs.gravity.value,
+        };
+        this.props.onForceAtlasOptionsChange(options);
     }
 
     changeEdges(){
@@ -35,11 +41,11 @@ class OptionsController extends React.Component {
     render() {
         return (
             <div className="container">
-                <div className="sliderContainer" onChange={this.handleChange}>
+                <div className="sliderContainer" onChange={this.handleForceAtlasChange}>
                     <span>Edge Weight Influence</span>
                     <input type="number" placeholder="value" min="0" max="5" step="0.1" ref="edgeWeightInfluence"/>
                 </div>
-                <div className="sliderContainer" onChange={this.handleChange}>
+                <div className="sliderContainer" onChange={this.handleForceAtlasChange}>
                     <span>Gravity</span>
                     <input type="number" placeholder="value" min="0" max="5" step="0.1" ref="gravity"/>
                 </div>
