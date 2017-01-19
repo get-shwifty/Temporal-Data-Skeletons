@@ -20,10 +20,8 @@ class CircularSkelettonBuilder{
         res.metadata.type = Graph.TYPE.CircularSkelettonGraph;
 
         let currentDate = moment(0);
-        let endDate = moment(currentDate).add(364, 'days');
+        let endDate = moment(currentDate).add(365, 'days');
 
-        console.log(currentDate);
-        console.log(endDate);
         let timeFormats = {
             days:"DD-MM-YYYY",
             months:"MM-YYYY",
@@ -32,7 +30,7 @@ class CircularSkelettonBuilder{
 
         //draw circleshape
         //(x0,y0) and whose radius is r is (x0 + r cos theta, y0 + r sin theta). Now choose theta values evenly spaced between 0 and 2pi.
-        let incr = 6.29/366;
+        let incr = 6.29/365;
         let theta = 0;
         let r = 25;
 
@@ -49,7 +47,6 @@ class CircularSkelettonBuilder{
         //create skelleton nodes
         while(currentDate < endDate){
             theta += incr;
-            console.log(currentDate);
             currentDate.add(1, 'days');
             let target = new Node(currentDate.valueOf(), {x: r*Math.cos(theta), y: r * Math.sin(theta), fixed: false, color: "#209ebe", label:currentDate.format( timeFormats[ 'days' ] ), labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton"});
             res.addEdge(new Edge(prevNode, target, {weight: skeletonStrength, color: "#209ebe", size: 10}));
@@ -72,7 +69,18 @@ class CircularSkelettonBuilder{
 
                 let msgTimestamp = moment(msg.timestamp).year(1970).valueOf();
                 let index = interpolationSearch(skelTimestamps, msgTimestamp);
-                let target = new Node(skelTimestamps[index]);
+                if(index === -1) {
+                    console.log(moment(0).dayOfYear(moment(msg.timestamp).dayOfYear()).format("DD-MM-YYYY"));
+                    var target = new Node(skelTimestamps[0]);
+                    return;
+                    //var target = new Node(moment(0).dayOfYear(moment(msg.timestamp).dayOfYear()));
+                }
+                else {
+                    var target = new Node(skelTimestamps[index]);
+                }
+                if( skelTimestamps[index] === undefined ) {
+                    console.log( msgTimestamp +" ----->"+moment(msg.timestamp).format( "DD-MM-YYYY"));
+                }
 
                 let n = skelNodes[index];
                 if( n ){
