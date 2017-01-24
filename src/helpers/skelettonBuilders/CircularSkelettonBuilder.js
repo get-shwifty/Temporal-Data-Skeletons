@@ -48,7 +48,7 @@ class CircularSkelettonBuilder{
         while(currentDate < endDate){
             theta += incr;
             currentDate.add(1, 'days');
-            let target = new Node(currentDate.valueOf(), {x: r*Math.cos(theta), y: r * Math.sin(theta), fixed: false, color: "#209ebe", label:currentDate.format( timeFormats[ 'days' ] ), labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton"});
+            let target = new Node(currentDate.valueOf(), {x: r*Math.cos(theta), y: r * Math.sin(theta), forceLabel: true, fixed: false, color: "#209ebe", label:currentDate.format( timeFormats[ 'days' ] ), labelColor: "node", size: 0.000001, mass: 1e-10, type: "skeleton"});
             res.addEdge(new Edge(prevNode, target, {weight: skeletonStrength, color: "#209ebe", size: 10}));
             skelTimestamps.push(target.id);
             skelNodes.push(target);
@@ -225,14 +225,14 @@ class CircularSkelettonBuilder{
         let endDate = moment(currentDate).add(7, 'days').subtract(1,'hours');
 
         let timeFormats = {
-            days:"ddd HH:mm",
+            days:"dd HH:mm",
             months:"MM-YYYY",
             years:"YYYY",
         };
 
         //draw circleshape
         //(x0,y0) and whose radius is r is (x0 + r cos theta, y0 + r sin theta). Now choose theta values evenly spaced between 0 and 2pi.
-        let incr = 6.29/(24*6);
+        let incr = 6.29/(24*7);
         let theta = 6.29*0.75;
         let r = 25;
 
@@ -269,7 +269,7 @@ class CircularSkelettonBuilder{
             let total = 0;
             _.forEach(messages, (msg) => {
 
-                let msgTimestamp = moment(msg.timestamp).year(1970).day(1).valueOf();
+                let msgTimestamp = moment(msg.timestamp).year(1970).isoWeek(1).valueOf();
                 let index = interpolationSearch(skelTimestamps, msgTimestamp);
                 if(index === -1) {
                     //console.log(moment(0).dayOfYear(moment(msg.timestamp).dayOfYear()).format("DD-MM-YYYY"));
@@ -280,18 +280,18 @@ class CircularSkelettonBuilder{
                     var target = new Node(skelTimestamps[index]);
                 }
                 if( skelTimestamps[index] === undefined ) {
-                    console.log( msgTimestamp +" ----->"+moment(msg.timestamp).format( "DD-MM-YYYY"));
+                    //console.log( msgTimestamp +" ----->"+moment(msg.timestamp).format( "DD-MM-YYYY"));
                 }
 
                 let n = skelNodes[index];
                 if( n ){
-                    console.log("ok");
+                    //console.log("ok");
                     xSum += n.x*msg.weight;
                     ySum += n.y*msg.weight;
                     total += msg.weight;
                 }
                 else {
-                    console.log("wrong");
+                    //console.log("wrong");
                 }
 
 
@@ -304,7 +304,7 @@ class CircularSkelettonBuilder{
             ySum /= total;
             if( Number.isNaN(xSum) || Number.isNaN(ySum))
             {
-                console.log(contactID);
+                //console.log(contactID);
             }
             else {
                 contactNode.setPosition(xSum,ySum);

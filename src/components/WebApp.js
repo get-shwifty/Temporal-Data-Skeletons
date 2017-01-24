@@ -130,7 +130,13 @@ class WebApp extends React.Component {
         let parsedData = Parser.parse(content,options.type);
         this.setState( {parsedData});
         let graph = Builder.build(parsedData,options.build);
-        this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
+        try
+        {
+            this.props.sigmaInstance.graph.clear().read(_.mapValues(graph, (e) => _.values(e)));
+        }catch(e)
+        {
+            console.log(e);
+        }
         this.saveGraph();
         this.refresh();
 

@@ -104,7 +104,7 @@ class ParserFB {
     {
         moment.locale('fr');
         let format = "dddd DD MMMM YYYY, HH:mm UTCZZ";
-        let date = moment(string, format).hours(0).minutes(0).seconds(0);
+        let date = moment(string, format);
         return date.valueOf();
     }
 }
